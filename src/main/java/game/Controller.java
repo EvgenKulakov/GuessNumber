@@ -34,7 +34,7 @@ public class Controller {
         }
 
         if (model.getUseNumbers().contains(useNumber)) {
-            view.showDialog(Messages.WHAT,
+            view.showDialog(Messages.WRONG,
                     String.format(Messages.CHANGE_NUMBER, useNumber),
                     JOptionPane.QUESTION_MESSAGE);
             return;

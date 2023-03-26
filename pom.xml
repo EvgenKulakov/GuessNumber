@@ -26,7 +26,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                            <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+                            <outfile>${project.build.finalName}.exe</outfile>
                             <errTitle>Error in ${project.build.finalName}</errTitle>
                             <classPath>
                                 <mainClass>game.MainClass</mainClass>

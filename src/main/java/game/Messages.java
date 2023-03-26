@@ -9,8 +9,7 @@ public class Messages {
 
     public static final String MAIN_WINDOW = "Угадай число";
     public static final String ERROR = "Ошибка";
-    public static final String WHAT = "Что?";
-    public static final String ERROR_NUMBER = "Нужно ввести число от 0 до 999\n(если хочешь победить)";
+    public static final String ERROR_NUMBER = "Введи число от 0 до 999\n(если хочешь победить)";
     public static final String INCORRECT_CHAR = "Ты, наверно, ошибся. Нужно ввести цифры.";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
     public static final String HINT = "<html>Подсказка:<br>Четвёртая цифра ПЯТЬ!</br><html>";
