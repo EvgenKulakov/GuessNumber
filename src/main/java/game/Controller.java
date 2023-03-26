@@ -21,24 +21,7 @@ public class Controller {
     }
 
     public void nextMove(int useNumber) {
-        if (model.isStopGame()) {
-            view.showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
-                    JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
-        if (useNumber > 999 || useNumber < 0) {
-            view.showDialog(Messages.ERROR, Messages.ERROR_NUMBER,
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (model.getUseNumbers().contains(useNumber)) {
-            view.showDialog(Messages.WRONG,
-                    String.format(Messages.CHANGE_NUMBER, useNumber),
-                    JOptionPane.QUESTION_MESSAGE);
-            return;
-        }
+        if (!checkMove(useNumber)) return;
 
         model.incrementCount();
 
@@ -67,6 +50,29 @@ public class Controller {
 
         view.getLabelText().setText(String.format(Messages.ENTER_NUMBER, model.getCount()));
         model.getUseNumbers().add(useNumber);
+    }
+
+    private boolean checkMove(int useNumber) {
+        if (model.isStopGame()) {
+            view.showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
+                    JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+
+        if (useNumber > 999 || useNumber < 0) {
+            view.showDialog(Messages.ERROR, Messages.ERROR_NUMBER,
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (model.getUseNumbers().contains(useNumber)) {
+            view.showDialog(Messages.WRONG,
+                    String.format(Messages.CHANGE_NUMBER, useNumber),
+                    JOptionPane.QUESTION_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
     private void gameOver() {
