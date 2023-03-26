@@ -11,8 +11,7 @@ public class View extends JFrame {
     private final JPanel panelImg = new JPanel();
     private final JPanel panelText = new JPanel();
     private final JPanel panelButton = new JPanel();
-    private final ImageIcon img = new ImageIcon(
-            "C:\\Users\\Stvolya\\IdeaProjects\\QuessTheNumber\\src\\main\\resources\\Мистер Число3.png");
+    private final ImageIcon img = new ImageIcon(Messages.PATH_FOR_IMAGINE);
     private final JLabel labelImg = new JLabel(img, JLabel.CENTER);
     private final JLabel labelText = new JLabel();
     private final JButton buttonLeft = new JButton();
@@ -23,9 +22,9 @@ public class View extends JFrame {
         initView();
     }
 
-    public void initView() {
+    private void initView() {
         // Инициализация главного окна
-        setTitle("Угадай число");
+        setTitle(Messages.MAIN_WINDOW);
         setSize(600, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,8 +37,7 @@ public class View extends JFrame {
         panelMain.add(panelImg, BorderLayout.PAGE_START);
 
         // Панель с текстом
-        labelText.setText("<html><center>Я загадаю любое число от 0 до 999.</center>"
-                + "<br>Отгадаешь число с 10 попыток, получишь подсказку! Начнём?</html>");
+        labelText.setText(Messages.START_TEXT);
         panelText.add(labelText);
 
         inputText.setHorizontalAlignment(JTextField.CENTER);
@@ -49,22 +47,19 @@ public class View extends JFrame {
         panelMain.add(panelText, BorderLayout.CENTER);
 
         // Панель с кнопками
-        buttonLeft.setText("Пожалуй, не стоит");
-        buttonRight.setText("Давай сыграем!");
+        buttonLeft.setText(Messages.BUTTON_NO_GAME);
+        buttonRight.setText(Messages.BUTTON_LETS_GAME);
         buttonLeft.setPreferredSize(new Dimension(150, 50));
         buttonRight.setPreferredSize(new Dimension(150, 50));
 
         buttonLeft.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (buttonLeft.getText().equals("Пожалуй, не стоит")) {
-                    errorMessage(buttonLeft.getText(), "Нет игры - нет подсказки!");
+                if (buttonLeft.getText().equals(Messages.BUTTON_NO_GAME)) {
+                    showDialog(buttonLeft.getText(), Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
                 } else {
-                    showDialog(buttonLeft.getText(),
-                            "Компьютер загадал рандомное число от 0 до 999,\n" +
-                                    "у вас всего 10 попыток, чтобы его отгадать.\n" +
-                                    "Если у вас не получится, то компьютер загадает новое число\n" +
-                                    "и у вас снова будет 10 попыток...");
+                    // Инструкция
+                    showDialog(buttonLeft.getText(), Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
@@ -72,10 +67,10 @@ public class View extends JFrame {
         buttonRight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (buttonRight.getText().equals("Далее")) {
+                if (buttonRight.getText().equals(Messages.BUTTON_FORTH)) {
                     nextMove();
                 } else {
-                    startGame();
+                    controller.startGame();
                 }
             }
         });
@@ -88,15 +83,10 @@ public class View extends JFrame {
         revalidate();
     }
 
-    void startGame() {
-        initStartGame();
-        controller.startGame();
-    }
-
-    void initStartGame() {
-        buttonLeft.setText("Инструкция");
-        buttonRight.setText("Далее");
-        labelText.setText("<html><center>Попытка №1, введи число:</center></html>");
+     public void initStartGame() {
+        buttonLeft.setText(Messages.BUTTON_MANUAL);
+        buttonRight.setText(Messages.BUTTON_FORTH);
+        labelText.setText(String.format(Messages.ENTER_NUMBER, 1));
         inputText.setVisible(true);
         inputText.addActionListener(new ActionListener() {
             @Override
@@ -112,39 +102,22 @@ public class View extends JFrame {
         try {
             controller.nextMove(Integer.parseInt(text));
         } catch (NumberFormatException ignored) {
-            errorMessage("Ошибка", "Ты, наверно, ошибся. Нужно ввести цифры.");
+            showDialog(Messages.ERROR, Messages.INCORRECT_CHAR, JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void repeatGame() {
-        View newView = new View();
-        Controller newController = new Controller(newView);
-        newView.setController(newController);
-        newView.buttonRight.setText("Играть ещё!");
-        this.dispose();
-    }
-
-    public void showDialog(String title, String message) {
+    public void showDialog(String title, String message, int jOptionPane) {
         JOptionPane.showMessageDialog(getContentPane(),
-                message, title, JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void wrongMessage(String message, int count) {
-        JOptionPane.showMessageDialog(getContentPane(),
-                message, "Неправильно", JOptionPane.WARNING_MESSAGE);
-        labelText.setText("<html><center>Попытка №" + count + " введи число:</center></html>");
-    }
-
-    public void errorMessage(String title, String message) {
-        JOptionPane.showMessageDialog(getContentPane(),
-                message, title, JOptionPane.ERROR_MESSAGE);
-    }
-
-    public Controller getController() {
-        return controller;
+                message, title, jOptionPane);
     }
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+    public JButton getButtonRight() {
+        return buttonRight;
+    }
+    public JLabel getLabelText() {
+        return labelText;
     }
 }

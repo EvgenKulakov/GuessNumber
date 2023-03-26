@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>QuessTheNumber</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>3.0</version>
 
     <build>
         <plugins>
@@ -29,7 +29,7 @@
                             <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
                             <errTitle>Error in ${project.build.finalName}</errTitle>
                             <classPath>
-                                <mainClass>game.Controller</mainClass>
+                                <mainClass>game.MainClass</mainClass>
                                 <preCp>anything</preCp>
                             </classPath>
                             <jre>
@@ -45,7 +45,7 @@
                                 <fileDescription>${project.name}</fileDescription>
                                 <productName>${project.name}</productName>
                                 <productVersion>1.0.0.0</productVersion>
-                                <companyName>Quest Sfera</companyName>
+                                <companyName>QuestSfera</companyName>
                                 <internalName>${project.build.finalName}</internalName>
                             </versionInfo>
                             <icon>C:\Users\Stvolya\IdeaProjects\QuessTheNumber\src\main\resources\789.ico</icon>

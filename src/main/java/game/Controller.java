@@ -1,77 +1,79 @@
 package game;
 
+import javax.swing.*;
 import java.util.Random;
 
 public class Controller {
     private final View view;
-    private boolean stopGame = false;
-    private int secretNumber;
-    private int count;
+    private final Model model;
 
-    public Controller(View view) {
+    public Controller(View view, Model model) {
         this.view = view;
-    }
-
-    public static void main(String[] args) {
-        View view = new View();
-        Controller controller = new Controller(view);
-        view.setController(controller);
+        this.model = model;
     }
 
     public void startGame() {
-        setStopGame(false);
-        secretNumber = createSecretNumber();
-        count = 1;
+        view.initStartGame();
+        model.setStopGame(false);
+        model.setSecretNumber(model.createSecretNumber());
+        model.setCount(1);
     }
 
     public void nextMove(int useNumber) {
-        if (isStopGame()) {
-            view.showDialog("Игра уже сыграна", "Четвёртая цифра ПЯТЬ!");
+        if (model.isStopGame()) {
+            view.showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         if (useNumber > 999 || useNumber < 0) {
-            view.errorMessage("Ошибка", "Нужно ввести число от 0 до 999\n" +
-                    "(если хочешь победить)");
+            view.showDialog(Messages.ERROR, Messages.ERROR_NUMBER,
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        count++;
+        model.incrementCount();
 
-        if (count > 10 && secretNumber != useNumber) {
+        if (model.getCount() > 10 && model.getSecretNumber() != useNumber) {
             gameOver();
             return;
         }
 
-        if (secretNumber < useNumber) {
-            view.wrongMessage("Загаданное число меньше", count);
-        } else if (secretNumber > useNumber) {
-            view.wrongMessage("Загаданное число больше", count);
-        } else {
-            setStopGame(true);
-            view.showDialog("Ты угадал! Это число " + secretNumber, "<html>Подсказка:<br>Четвёртая цифра ПЯТЬ!<html>");
+        if (model.getSecretNumber() == useNumber) {
+            model.setStopGame(true);
+            view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
+                    Messages.HINT,
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
-    }
 
-    int createSecretNumber() {
-        Random random = new Random();
-        return random.nextInt(1000);
+        if (model.getSecretNumber() < useNumber) {
+            view.showDialog(Messages.WRONG, Messages.NUMBER_LESS,
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+        if (model.getSecretNumber() > useNumber) {
+            view.showDialog(Messages.WRONG, Messages.NUMBER_GREATER,
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+        view.getLabelText().setText(String.format(Messages.ENTER_NUMBER, model.getCount()));
     }
 
     void gameOver() {
-        view.errorMessage("Ты проиграл!", "Правильный ответ был " + secretNumber);
-        view.repeatGame();
+        view.showDialog(Messages.YOU_LOSE,
+                String.format(Messages.CORRECT_ANSWER, model.getSecretNumber()),
+                JOptionPane.ERROR_MESSAGE);
+        repeatGame();
     }
 
-    public View getView() {
-        return view;
-    }
-
-    public boolean isStopGame() {
-        return stopGame;
-    }
-
-    public void setStopGame(boolean stopGame) {
-        this.stopGame = stopGame;
+    private void repeatGame() {
+        View newView = new View();
+        Model newModel = new Model();
+        Controller newController = new Controller(newView, newModel);
+        newModel.setController(newController);
+        newView.setController(newController);
+        newView.getButtonRight().setText(Messages.BUTTON_PLAY_MORE);
+        view.dispose();
     }
 }
