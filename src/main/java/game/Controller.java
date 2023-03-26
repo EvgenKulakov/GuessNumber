@@ -1,7 +1,7 @@
 package game;
 
 import javax.swing.*;
-import java.util.Random;
+import java.util.HashSet;
 
 public class Controller {
     private final View view;
@@ -17,6 +17,7 @@ public class Controller {
         model.setStopGame(false);
         model.setSecretNumber(model.createSecretNumber());
         model.setCount(1);
+        model.setUseNumbers(new HashSet<>(10));
     }
 
     public void nextMove(int useNumber) {
@@ -29,6 +30,13 @@ public class Controller {
         if (useNumber > 999 || useNumber < 0) {
             view.showDialog(Messages.ERROR, Messages.ERROR_NUMBER,
                     JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (model.getUseNumbers().contains(useNumber)) {
+            view.showDialog(Messages.WHAT,
+                    String.format(Messages.CHANGE_NUMBER, useNumber),
+                    JOptionPane.QUESTION_MESSAGE);
             return;
         }
 
@@ -58,9 +66,10 @@ public class Controller {
         }
 
         view.getLabelText().setText(String.format(Messages.ENTER_NUMBER, model.getCount()));
+        model.getUseNumbers().add(useNumber);
     }
 
-    void gameOver() {
+    private void gameOver() {
         view.showDialog(Messages.YOU_LOSE,
                 String.format(Messages.CORRECT_ANSWER, model.getSecretNumber()),
                 JOptionPane.ERROR_MESSAGE);

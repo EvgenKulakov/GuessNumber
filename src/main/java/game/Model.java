@@ -1,12 +1,14 @@
 package game;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Model {
     private Controller controller;
-    private boolean stopGame = false;
+    private boolean stopGame;
     private int secretNumber;
     private int count;
+    private Set<Integer> useNumbers;
 
     public void incrementCount() {
         count++;
@@ -17,6 +19,12 @@ public class Model {
         return random.nextInt(1000);
     }
 
+    public Set<Integer> getUseNumbers() {
+        return useNumbers;
+    }
+    public void setUseNumbers(Set<Integer> useNumbers) {
+        this.useNumbers = useNumbers;
+    }
     public void setController(Controller controller) {
         this.controller = controller;
     }
