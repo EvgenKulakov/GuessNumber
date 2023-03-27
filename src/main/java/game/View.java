@@ -67,9 +67,10 @@ public class View extends JFrame {
     private void actionLeftButton() {
         if (buttonLeft.getText().equals(Messages.BUTTON_NO_GAME)) {
             showDialog(buttonLeft.getText(), Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Инструкция
+        } else if (buttonLeft.getText().equals(Messages.BUTTON_MANUAL)) {
             showDialog(buttonLeft.getText(), Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            showDialog(Messages.YOU_ARE_WELCOME, Messages.BYE, JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -77,7 +78,7 @@ public class View extends JFrame {
         if (buttonRight.getText().equals(Messages.BUTTON_FORTH)) {
             nextMove();
         } else if (buttonRight.getText().equals(Messages.BUTTON_CLUE)) {
-            showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
+            showDialog(Messages.BUTTON_CLUE, Messages.SECOND_HINT,
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             controller.startGame();
@@ -113,6 +114,9 @@ public class View extends JFrame {
     }
     public JButton getButtonRight() {
         return buttonRight;
+    }
+    public JButton getButtonLeft() {
+        return buttonLeft;
     }
     public JLabel getLabelText() {
         return labelText;

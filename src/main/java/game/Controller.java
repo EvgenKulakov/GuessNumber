@@ -84,6 +84,7 @@ public class Controller {
         view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
                 Messages.HINT,
                 JOptionPane.INFORMATION_MESSAGE);
+        view.getButtonLeft().setText(Messages.BUTTON_THANKS);
         view.getButtonRight().setText(Messages.BUTTON_CLUE);
     }
 
