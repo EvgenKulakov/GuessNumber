@@ -6,6 +6,7 @@ public class Messages {
     public static final String BUTTON_PLAY_MORE = "Играть ещё!";
     public static final String BUTTON_FORTH = "Далее";
     public static final String BUTTON_MANUAL = "Инструкция";
+    public static final String BUTTON_CLUE = "Подсказка";
 
     public static final String MAIN_WINDOW = "Угадай число";
     public static final String ERROR = "Ошибка";

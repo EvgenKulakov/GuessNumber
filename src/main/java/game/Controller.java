@@ -14,7 +14,6 @@ public class Controller {
 
     public void startGame() {
         view.initStartGame();
-        model.setStopGame(false);
         model.createSecretNumber();
         model.setCount(1);
         model.setUseNumbers(new HashSet<>(9));
@@ -44,12 +43,6 @@ public class Controller {
     }
 
     private boolean inputValidation(int useNumber) {
-        if (model.isStopGame()) {
-            view.showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
-                    JOptionPane.INFORMATION_MESSAGE);
-            return false;
-        }
-
         if (useNumber > 999 || useNumber < 0) {
             view.showDialog(Messages.ERROR, Messages.ERROR_NUMBER,
                     JOptionPane.ERROR_MESSAGE);
@@ -73,10 +66,7 @@ public class Controller {
         }
 
         if (model.getSecretNumber() == useNumber) {
-            model.setStopGame(true);
-            view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
-                    Messages.HINT,
-                    JOptionPane.INFORMATION_MESSAGE);
+            victory();
             return true;
         }
 
@@ -88,6 +78,13 @@ public class Controller {
                 String.format(Messages.CORRECT_ANSWER, model.getSecretNumber()),
                 JOptionPane.ERROR_MESSAGE);
         repeatGame();
+    }
+
+    private void victory() {
+        view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
+                Messages.HINT,
+                JOptionPane.INFORMATION_MESSAGE);
+        view.getButtonRight().setText(Messages.BUTTON_CLUE);
     }
 
     private void repeatGame() {

@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Set;
 
 public class Model {
-    private boolean stopGame;
     private int secretNumber;
     private int count;
     private Set<Integer> useNumbers;
@@ -23,12 +22,6 @@ public class Model {
     }
     public void setUseNumbers(Set<Integer> useNumbers) {
         this.useNumbers = useNumbers;
-    }
-    public boolean isStopGame() {
-        return stopGame;
-    }
-    public void setStopGame(boolean stopGame) {
-        this.stopGame = stopGame;
     }
     public int getSecretNumber() {
         return secretNumber;

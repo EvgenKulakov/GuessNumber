@@ -52,28 +52,9 @@ public class View extends JFrame {
         buttonLeft.setPreferredSize(new Dimension(150, 50));
         buttonRight.setPreferredSize(new Dimension(150, 50));
 
-        buttonLeft.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (buttonLeft.getText().equals(Messages.BUTTON_NO_GAME)) {
-                    showDialog(buttonLeft.getText(), Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
-                } else {
-                    // Инструкция
-                    showDialog(buttonLeft.getText(), Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
-
-        buttonRight.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (buttonRight.getText().equals(Messages.BUTTON_FORTH)) {
-                    nextMove();
-                } else {
-                    controller.startGame();
-                }
-            }
-        });
+        // слушатели для кнопок
+        buttonLeft.addActionListener(e -> actionLeftButton());
+        buttonRight.addActionListener(e -> actionRightButton());
 
         panelButton.add(buttonLeft);
         panelButton.add(buttonRight);
@@ -83,18 +64,33 @@ public class View extends JFrame {
         revalidate();
     }
 
+    private void actionLeftButton() {
+        if (buttonLeft.getText().equals(Messages.BUTTON_NO_GAME)) {
+            showDialog(buttonLeft.getText(), Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Инструкция
+            showDialog(buttonLeft.getText(), Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void actionRightButton() {
+        if (buttonRight.getText().equals(Messages.BUTTON_FORTH)) {
+            nextMove();
+        } else if (buttonRight.getText().equals(Messages.BUTTON_CLUE)) {
+            showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            controller.startGame();
+        }
+    }
+
      public void initStartGame() {
         buttonLeft.setText(Messages.BUTTON_MANUAL);
         buttonRight.setText(Messages.BUTTON_FORTH);
         labelText.setText(String.format(Messages.ENTER_NUMBER, 1));
         inputText.setVisible(true);
-        // можно нажать на Enter вместо кнопки "Далее" для следующего хода
-        inputText.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nextMove();
-            }
-        });
+        // можно нажать на Enter вместо правой кнопки
+        inputText.addActionListener(e -> actionRightButton());
         revalidate();
     }
 
