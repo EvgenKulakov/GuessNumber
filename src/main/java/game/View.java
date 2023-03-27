@@ -11,7 +11,7 @@ public class View extends JFrame {
     private final JPanel panelImg = new JPanel();
     private final JPanel panelText = new JPanel();
     private final JPanel panelButton = new JPanel();
-    private final ImageIcon img = new ImageIcon(Messages.PATH_FOR_IMAGINE);
+    private final ImageIcon img = new ImageIcon(Messages.PATH_IMAGINE);
     private final JLabel labelImg = new JLabel(img, JLabel.CENTER);
     private final JLabel labelText = new JLabel();
     private final JButton buttonLeft = new JButton();
@@ -88,6 +88,7 @@ public class View extends JFrame {
         buttonRight.setText(Messages.BUTTON_FORTH);
         labelText.setText(String.format(Messages.ENTER_NUMBER, 1));
         inputText.setVisible(true);
+        // можно нажать на Enter вместо кнопки "Далее" для следующего хода
         inputText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

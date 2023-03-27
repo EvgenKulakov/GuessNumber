@@ -9,7 +9,7 @@ public class Messages {
 
     public static final String MAIN_WINDOW = "Угадай число";
     public static final String ERROR = "Ошибка";
-    public static final String ERROR_NUMBER = "Введи число от 0 до 999\n(если хочешь победить)";
+    public static final String ERROR_NUMBER = "Нужно ввести число от 0 до 999";
     public static final String INCORRECT_CHAR = "Ты, наверно, ошибся. Нужно ввести цифры.";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
     public static final String HINT = "<html>Подсказка:<br>Четвёртая цифра ПЯТЬ!</br><html>";
@@ -23,7 +23,7 @@ public class Messages {
     public static final String CORRECT_ANSWER = "Правильный ответ был %s";
     public static final String NO_GAME = "Нет игры - нет подсказки!";
 
-    public  static final String MANUAL = """
+    public static final String MANUAL = """
             Компьютер загадал рандомное число от 0 до 999,
             у вас всего 10 попыток, чтобы его отгадать.
             Если у вас не получится, то компьютер загадает новое число
@@ -35,6 +35,5 @@ public class Messages {
 
     public static final String ENTER_NUMBER = "<html><center>Попытка №%s введи число:</center></html>";
 
-    public static final String PATH_FOR_IMAGINE =
-            "C:\\Users\\Stvolya\\IdeaProjects\\QuessTheNumber\\src\\main\\resources\\matrix man.png";
+    public static final String PATH_IMAGINE = "src/main/resources/matrix man.png";
 }

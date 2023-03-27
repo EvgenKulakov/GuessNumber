@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Set;
 
 public class Model {
-    private Controller controller;
     private boolean stopGame;
     private int secretNumber;
     private int count;
@@ -14,9 +13,9 @@ public class Model {
         count++;
     }
 
-    public int createSecretNumber() {
+    public void createSecretNumber() {
         Random random = new Random();
-        return random.nextInt(1000);
+        secretNumber = random.nextInt(1000);
     }
 
     public Set<Integer> getUseNumbers() {
@@ -24,9 +23,6 @@ public class Model {
     }
     public void setUseNumbers(Set<Integer> useNumbers) {
         this.useNumbers = useNumbers;
-    }
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
     public boolean isStopGame() {
         return stopGame;
@@ -36,9 +32,6 @@ public class Model {
     }
     public int getSecretNumber() {
         return secretNumber;
-    }
-    public void setSecretNumber(int secretNumber) {
-        this.secretNumber = secretNumber;
     }
     public int getCount() {
         return count;

@@ -15,28 +15,19 @@ public class Controller {
     public void startGame() {
         view.initStartGame();
         model.setStopGame(false);
-        model.setSecretNumber(model.createSecretNumber());
+        model.createSecretNumber();
         model.setCount(1);
-        model.setUseNumbers(new HashSet<>(10));
+        model.setUseNumbers(new HashSet<>(9));
     }
 
     public void nextMove(int useNumber) {
-        if (!checkMove(useNumber)) return;
+        // проверка корректности ввода
+        if (!inputValidation(useNumber)) return;
 
         model.incrementCount();
 
-        if (model.getCount() > 10 && model.getSecretNumber() != useNumber) {
-            gameOver();
-            return;
-        }
-
-        if (model.getSecretNumber() == useNumber) {
-            model.setStopGame(true);
-            view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
-                    Messages.HINT,
-                    JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
+        // проверка окончания игры
+        if (isGameOver(useNumber)) return;
 
         if (model.getSecretNumber() < useNumber) {
             view.showDialog(Messages.WRONG, Messages.NUMBER_LESS,
@@ -52,7 +43,7 @@ public class Controller {
         model.getUseNumbers().add(useNumber);
     }
 
-    private boolean checkMove(int useNumber) {
+    private boolean inputValidation(int useNumber) {
         if (model.isStopGame()) {
             view.showDialog(Messages.SECOND_VICTORY, Messages.SECOND_HINT,
                     JOptionPane.INFORMATION_MESSAGE);
@@ -75,6 +66,23 @@ public class Controller {
         return true;
     }
 
+    private boolean isGameOver(int useNumber) {
+        if (model.getCount() > 10 && model.getSecretNumber() != useNumber) {
+            gameOver();
+            return true;
+        }
+
+        if (model.getSecretNumber() == useNumber) {
+            model.setStopGame(true);
+            view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
+                    Messages.HINT,
+                    JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        }
+
+        return false;
+    }
+
     private void gameOver() {
         view.showDialog(Messages.YOU_LOSE,
                 String.format(Messages.CORRECT_ANSWER, model.getSecretNumber()),
@@ -86,7 +94,6 @@ public class Controller {
         View newView = new View();
         Model newModel = new Model();
         Controller newController = new Controller(newView, newModel);
-        newModel.setController(newController);
         newView.setController(newController);
         newView.getButtonRight().setText(Messages.BUTTON_PLAY_MORE);
         view.dispose();

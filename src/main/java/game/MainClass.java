@@ -6,6 +6,5 @@ public class MainClass {
         Model model = new Model();
         Controller controller = new Controller(view, model);
         view.setController(controller);
-        model.setController(controller);
     }
 }
