@@ -43,5 +43,5 @@ public class Messages {
 
     public static final String ENTER_NUMBER = "<html><center>Попытка №%s введи число:</center></html>";
 
-    public static final String IMAGINE = "/matrix_man.jpg";
+    public static final String IMAGINE = "/mr_matrix.jpg";
 }
