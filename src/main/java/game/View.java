@@ -2,8 +2,6 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class View extends JFrame {
     private Controller controller;
@@ -11,7 +9,7 @@ public class View extends JFrame {
     private final JPanel panelImg = new JPanel();
     private final JPanel panelText = new JPanel();
     private final JPanel panelButton = new JPanel();
-    private final ImageIcon img = new ImageIcon(Messages.PATH_IMAGINE);
+    private final ImageIcon img = new ImageIcon(getClass().getResource(Messages.IMAGINE));
     private final JLabel labelImg = new JLabel(img, JLabel.CENTER);
     private final JLabel labelText = new JLabel();
     private final JButton buttonLeft = new JButton();
