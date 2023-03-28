@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>QuessTheNumber</artifactId>
+    <groupId>ru.questsfera</groupId>
+    <artifactId>GuessTheNumber</artifactId>
     <version>2.0</version>
 
     <build>
@@ -26,7 +26,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                            <outfile>${project.build.finalName}.exe</outfile>
+                            <outfile>Игра Угадай число.exe</outfile>
                             <errTitle>Error in ${project.build.finalName}</errTitle>
                             <classPath>
                                 <mainClass>game.MainClass</mainClass>
@@ -35,26 +35,26 @@
                             <jre>
                                 <path>C:\Users\Stvolya\.jdks\liberica-17.0.6</path>
                                 <minVersion>1.7.0</minVersion>
-                                <maxVersion>17.0.6</maxVersion>
                                 <jdkPreference>preferJre</jdkPreference>
                                 <runtimeBits>32</runtimeBits>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.0.0.0</fileVersion>
-                                <txtFileVersion>1.0.0</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <productName>${project.name}</productName>
-                                <productVersion>1.2.0.0</productVersion>
-                                <companyName>QuestSfera</companyName>
+                                <fileVersion>1.2.0.0</fileVersion>
+                                <trademarks>${project.organization.name}©</trademarks>
                                 <internalName>${project.build.finalName}</internalName>
+                                <originalFilename>GuessTheNumber.exe</originalFilename>
                             </versionInfo>
-                            <icon>C:\Users\Stvolya\IdeaProjects\QuessTheNumber\src\main\resources\matrix icon.ico</icon>
+                            <icon>src\main\resources\matrix_icon.ico</icon>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
+    <organization><name>QuestSfera</name></organization>
+    <inceptionYear>2023</inceptionYear>
+    <description>GuessTheNumber</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
