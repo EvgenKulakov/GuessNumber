@@ -8,21 +8,26 @@ public class Model {
     private int secretNumber;
     private int moveNumber;
     private Set<Integer> useNumbers;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
-    public void createSecretNumber() {
+    public Model() {
+        createSecretNumber();
+        initializeMoveNumber();
+        resetUseNumbers();
+    }
+
+    private void createSecretNumber() {
         secretNumber = random.nextInt(1000);
     }
-
-    public void initializeMoveNumber() {
+    private void initializeMoveNumber() {
         moveNumber = 1;
     }
-    public void incrementMoveNumber() {
-        moveNumber++;
+    private void resetUseNumbers() {
+        useNumbers = new HashSet<>(9);
     }
 
-    public void resetUseNumbers() {
-        useNumbers = new HashSet<>(9);
+    public void incrementMoveNumber() {
+        moveNumber++;
     }
 
     public Set<Integer> getUseNumbers() {

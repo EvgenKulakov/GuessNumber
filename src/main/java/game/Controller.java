@@ -1,6 +1,7 @@
 package game;
 
 import javax.swing.*;
+import static game.Messages.*;
 
 public class Controller {
     private final View view;
@@ -11,16 +12,47 @@ public class Controller {
         this.model = model;
     }
 
-    public void startGame() {
-        view.initStartGame();
-        model.createSecretNumber();
-        model.initializeMoveNumber();
-        model.resetUseNumbers();
+    public void actionLeftButton(String buttonText) {
+        switch (buttonText) {
+            case BUTTON_NO_GAME:
+                view.showDialog(BUTTON_NO_GAME, Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
+                break;
+            case BUTTON_MANUAL:
+                view.showDialog(BUTTON_MANUAL, Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case BUTTON_THANKS:
+                view.showDialog(YOU_ARE_WELCOME, BYE, JOptionPane.INFORMATION_MESSAGE);
+                break;
+        }
     }
 
-    public void nextMove(int useNumber) {
+    public void actionRightButton(String buttonText) {
+        switch (buttonText) {
+            case BUTTON_FORTH:
+                readAndMove();
+                break;
+            case BUTTON_CLUE:
+                view.showDialog(BUTTON_CLUE, SECOND_HINT, JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case BUTTON_LETS_GAME:
+            case BUTTON_PLAY_MORE:
+                view.initStartGame();
+                break;
+        }
+    }
+
+    private void readAndMove() {
+        try {
+            String text = view.getInputText().getText().trim();
+            nextMove(Integer.parseInt(text));
+        } catch (NumberFormatException ignored) {
+            view.showDialog(ERROR, INCORRECT_CHAR, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void nextMove(int useNumber) {
         // проверка корректности ввода
-        if (!inputValidation(useNumber)) return;
+        if (!checkNumber(useNumber)) return;
 
         model.incrementMoveNumber();
 
@@ -28,29 +60,25 @@ public class Controller {
         if (isGameOver(useNumber)) return;
 
         if (model.getSecretNumber() < useNumber) {
-            view.showDialog(Messages.WRONG, Messages.NUMBER_LESS,
-                    JOptionPane.WARNING_MESSAGE);
+            view.showDialog(WRONG, NUMBER_LESS, JOptionPane.WARNING_MESSAGE);
         }
 
         if (model.getSecretNumber() > useNumber) {
-            view.showDialog(Messages.WRONG, Messages.NUMBER_GREATER,
-                    JOptionPane.WARNING_MESSAGE);
+            view.showDialog(WRONG, NUMBER_GREATER, JOptionPane.WARNING_MESSAGE);
         }
 
-        view.getLabelText().setText(String.format(Messages.ENTER_NUMBER, model.getMoveNumber()));
+        view.getLabelText().setText(String.format(ENTER_NUMBER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
 
-    private boolean inputValidation(int useNumber) {
+    private boolean checkNumber(int useNumber) {
         if (useNumber > 999 || useNumber < 0) {
-            view.showDialog(Messages.ERROR, Messages.ERROR_NUMBER,
-                    JOptionPane.ERROR_MESSAGE);
+            view.showDialog(ERROR, ERROR_NUMBER, JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
         if (model.getUseNumbers().contains(useNumber)) {
-            view.showDialog(Messages.WRONG,
-                    String.format(Messages.CHANGE_NUMBER, useNumber),
+            view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
                     JOptionPane.QUESTION_MESSAGE);
             return false;
         }
@@ -74,25 +102,24 @@ public class Controller {
 
     private void gameOver() {
         view.showDialog(Messages.YOU_LOSE,
-                String.format(Messages.CORRECT_ANSWER, model.getSecretNumber()),
+                String.format(CORRECT_ANSWER, model.getSecretNumber()),
                 JOptionPane.ERROR_MESSAGE);
         repeatGame();
     }
 
     private void victory() {
-        view.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
-                Messages.HINT,
+        view.showDialog(String.format(VICTORY, model.getSecretNumber()), HINT,
                 JOptionPane.INFORMATION_MESSAGE);
-        view.getButtonLeft().setText(Messages.BUTTON_THANKS);
-        view.getButtonRight().setText(Messages.BUTTON_CLUE);
+        view.getButtonLeft().setText(BUTTON_THANKS);
+        view.getButtonRight().setText(BUTTON_CLUE);
     }
 
     private void repeatGame() {
+        view.dispose();
         View newView = new View();
         Model newModel = new Model();
         Controller newController = new Controller(newView, newModel);
         newView.setController(newController);
-        newView.getButtonRight().setText(Messages.BUTTON_PLAY_MORE);
-        view.dispose();
+        newView.getButtonRight().setText(BUTTON_PLAY_MORE);
     }
 }

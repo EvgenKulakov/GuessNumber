@@ -56,13 +56,14 @@ public class View extends JFrame {
         buttonLeft.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                actionLeftButton();
+                controller.actionLeftButton(buttonLeft.getText());
             }
         });
+
         buttonRight.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                actionRightButton();
+                controller.actionRightButton(buttonRight.getText());
             }
         });
 
@@ -74,44 +75,19 @@ public class View extends JFrame {
         revalidate();
     }
 
-    private void actionLeftButton() {
-        if (buttonLeft.getText().equals(Messages.BUTTON_NO_GAME)) {
-            showDialog(buttonLeft.getText(), Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
-        } else if (buttonLeft.getText().equals(Messages.BUTTON_MANUAL)) {
-            showDialog(buttonLeft.getText(), Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            showDialog(Messages.YOU_ARE_WELCOME, Messages.BYE, JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    private void actionRightButton() {
-        if (buttonRight.getText().equals(Messages.BUTTON_FORTH)) {
-            nextMove();
-        } else if (buttonRight.getText().equals(Messages.BUTTON_CLUE)) {
-            showDialog(Messages.BUTTON_CLUE, Messages.SECOND_HINT,
-                    JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            controller.startGame();
-        }
-    }
-
      public void initStartGame() {
         buttonLeft.setText(Messages.BUTTON_MANUAL);
         buttonRight.setText(Messages.BUTTON_FORTH);
         labelText.setText(String.format(Messages.ENTER_NUMBER, 1));
         inputText.setVisible(true);
         // можно нажать на Enter вместо правой кнопки
-        inputText.addActionListener(e -> actionRightButton());
+        inputText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionRightButton(buttonRight.getText());
+            }
+        });
         revalidate();
-    }
-
-    private void nextMove() {
-        String text = inputText.getText().trim();
-        try {
-            controller.nextMove(Integer.parseInt(text));
-        } catch (NumberFormatException ignored) {
-            showDialog(Messages.ERROR, Messages.INCORRECT_CHAR, JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public void showDialog(String title, String message, int jOptionPane) {
@@ -130,5 +106,8 @@ public class View extends JFrame {
     }
     public JLabel getLabelText() {
         return labelText;
+    }
+    public JTextField getInputText() {
+        return inputText;
     }
 }
