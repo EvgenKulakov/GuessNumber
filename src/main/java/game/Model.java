@@ -8,9 +8,9 @@ public class Model {
     private int secretNumber;
     private int moveNumber;
     private Set<Integer> useNumbers;
+    private static Random random = new Random();
 
     public void createSecretNumber() {
-        Random random = new Random();
         secretNumber = random.nextInt(1000);
     }
 
