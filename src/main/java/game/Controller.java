@@ -1,7 +1,6 @@
 package game;
 
 import javax.swing.*;
-import java.util.HashSet;
 
 public class Controller {
     private final View view;
@@ -15,15 +14,15 @@ public class Controller {
     public void startGame() {
         view.initStartGame();
         model.createSecretNumber();
-        model.setCount(1);
-        model.setUseNumbers(new HashSet<>(9));
+        model.initializeMoveNumber();
+        model.resetUseNumbers();
     }
 
     public void nextMove(int useNumber) {
         // проверка корректности ввода
         if (!inputValidation(useNumber)) return;
 
-        model.incrementCount();
+        model.incrementMoveNumber();
 
         // проверка окончания игры
         if (isGameOver(useNumber)) return;
@@ -38,7 +37,7 @@ public class Controller {
                     JOptionPane.WARNING_MESSAGE);
         }
 
-        view.getLabelText().setText(String.format(Messages.ENTER_NUMBER, model.getCount()));
+        view.getLabelText().setText(String.format(Messages.ENTER_NUMBER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
 
@@ -60,7 +59,7 @@ public class Controller {
     }
 
     private boolean isGameOver(int useNumber) {
-        if (model.getCount() > 10 && model.getSecretNumber() != useNumber) {
+        if (model.getMoveNumber() > 10 && model.getSecretNumber() != useNumber) {
             gameOver();
             return true;
         }
