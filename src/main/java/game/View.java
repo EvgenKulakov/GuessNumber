@@ -2,6 +2,8 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class View extends JFrame {
     private Controller controller;
@@ -51,8 +53,18 @@ public class View extends JFrame {
         buttonRight.setPreferredSize(new Dimension(150, 50));
 
         // слушатели для кнопок
-        buttonLeft.addActionListener(e -> actionLeftButton());
-        buttonRight.addActionListener(e -> actionRightButton());
+        buttonLeft.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionLeftButton();
+            }
+        });
+        buttonRight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionRightButton();
+            }
+        });
 
         panelButton.add(buttonLeft);
         panelButton.add(buttonRight);
