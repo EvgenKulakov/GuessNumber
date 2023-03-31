@@ -48,7 +48,10 @@ public class View extends JFrame {
 
         // Панель с кнопками
         buttonLeft.setText(Messages.BUTTON_NO_GAME);
-        buttonRight.setText(Messages.BUTTON_LETS_GAME);
+        String buttonRightText = Model.isNotFirstGame()
+                ? Messages.BUTTON_PLAY_MORE
+                : Messages.BUTTON_LETS_GAME;
+        buttonRight.setText(buttonRightText);
         buttonLeft.setPreferredSize(new Dimension(150, 50));
         buttonRight.setPreferredSize(new Dimension(150, 50));
 

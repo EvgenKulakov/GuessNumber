@@ -4,6 +4,7 @@ import javax.swing.*;
 import static game.Messages.*;
 
 public class Controller {
+    private static Controller game;
     private final View view;
     private final Model model;
 
@@ -72,11 +73,13 @@ public class Controller {
     }
 
     private boolean checkNumber(int useNumber) {
+        // число больше или меньше возможного
         if (useNumber > 999 || useNumber < 0) {
             view.showDialog(ERROR, ERROR_NUMBER, JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
+        // число уже было
         if (model.getUseNumbers().contains(useNumber)) {
             view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
                     JOptionPane.QUESTION_MESSAGE);
@@ -116,10 +119,14 @@ public class Controller {
 
     private void repeatGame() {
         view.dispose();
-        View newView = new View();
-        Model newModel = new Model();
-        Controller newController = new Controller(newView, newModel);
-        newView.setController(newController);
-        newView.getButtonRight().setText(BUTTON_PLAY_MORE);
+        Model.notFirstGame();
+        MainClass.start();
+    }
+
+    public static Controller getGame() {
+        return game;
+    }
+    public static void setGame(Controller game) {
+        Controller.game = game;
     }
 }

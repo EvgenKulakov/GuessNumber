@@ -8,7 +8,7 @@ public class Model {
     private int secretNumber;
     private int moveNumber;
     private Set<Integer> useNumbers;
-    private static final Random random = new Random();
+    private static boolean notFirstGame;
 
     public Model() {
         createSecretNumber();
@@ -17,8 +17,10 @@ public class Model {
     }
 
     private void createSecretNumber() {
+        Random random = new Random();
         secretNumber = random.nextInt(1000);
     }
+
     private void initializeMoveNumber() {
         moveNumber = 1;
     }
@@ -30,6 +32,10 @@ public class Model {
         moveNumber++;
     }
 
+    public static void notFirstGame() {
+        notFirstGame = true;
+    }
+
     public Set<Integer> getUseNumbers() {
         return useNumbers;
     }
@@ -38,5 +44,8 @@ public class Model {
     }
     public int getMoveNumber() {
         return moveNumber;
+    }
+    public static boolean isNotFirstGame() {
+        return notFirstGame;
     }
 }
