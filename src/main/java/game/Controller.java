@@ -52,14 +52,15 @@ public class Controller {
     }
 
     private void nextMove(int useNumber) {
-        // проверка корректности ввода
+        /* проверка корректности ввода */
         if (!checkNumber(useNumber)) return;
 
         model.incrementMoveNumber();
 
-        // проверка окончания игры
+        /* проверка окончания игры */
         if (isGameOver(useNumber)) return;
 
+        /* ход */
         if (model.getSecretNumber() < useNumber) {
             view.showDialog(WRONG, NUMBER_LESS, JOptionPane.WARNING_MESSAGE);
         }
@@ -73,34 +74,36 @@ public class Controller {
     }
 
     private boolean checkNumber(int useNumber) {
-        // число больше или меньше возможного
-        if (useNumber > 999 || useNumber < 0) {
+        boolean check = true;
+
+        if (useNumber > 999 || useNumber < 0) { // число больше или меньше возможного
             view.showDialog(ERROR, ERROR_NUMBER, JOptionPane.ERROR_MESSAGE);
-            return false;
+            check = false;
         }
 
-        // число уже было
-        if (model.getUseNumbers().contains(useNumber)) {
+        if (model.getUseNumbers().contains(useNumber)) { // число уже было
             view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
                     JOptionPane.QUESTION_MESSAGE);
-            return false;
+            check = false;
         }
 
-        return true;
+        return check;
     }
 
     private boolean isGameOver(int useNumber) {
+        boolean gameOver = false;
+
         if (model.getMoveNumber() > 10 && model.getSecretNumber() != useNumber) {
             gameOver();
-            return true;
+            gameOver = true;
         }
 
         if (model.getSecretNumber() == useNumber) {
             victory();
-            return true;
+            gameOver = true;
         }
 
-        return false;
+        return gameOver;
     }
 
     private void gameOver() {

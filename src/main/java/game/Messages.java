@@ -1,7 +1,7 @@
 package game;
 
 public class Messages {
-    // кнопки
+    /* кнопки */
     public static final String BUTTON_NO_GAME = "Пожалуй, не стоит";
     public static final String BUTTON_LETS_GAME = "Давай сыграем!";
     public static final String BUTTON_PLAY_MORE = "Играть ещё!";
@@ -10,7 +10,7 @@ public class Messages {
     public static final String BUTTON_CLUE = "Подсказка";
     public static final String BUTTON_THANKS = "Спасибо";
 
-    // titles
+    /* titles */
     public static final String MAIN_WINDOW = "Угадай число";
     public static final String ERROR = "Ошибка";
     public static final String VICTORY = "Ты угадал! Это число %s";
@@ -18,7 +18,7 @@ public class Messages {
     public static final String YOU_LOSE = "Ты проиграл!";
     public static final String YOU_ARE_WELCOME = "Пожалуйста!";
 
-    // сообщения
+    /* сообщения */
     public static final String ERROR_NUMBER = "Нужно ввести число от 0 до 999";
     public static final String INCORRECT_CHAR = "Ты, наверно, ошибся. Нужно ввести цифры.";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
@@ -30,19 +30,20 @@ public class Messages {
     public static final String NO_GAME = "Нет игры - нет подсказки!";
     public static final String BYE = "До встречи в реальном мире!";
 
-    // texts
-    public static final String MANUAL = """
-            Компьютер загадал рандомное число от 0 до 999,
-            у вас всего 10 попыток, чтобы его отгадать.
-            Если у вас не получится, то компьютер загадает новое число
-            и у вас снова будет 10 попыток...""";
+    /* texts */
+    public static final String MANUAL = new StringBuilder()
+            .append("Компьютер загадал рандомное число от 0 до 999,\n")
+            .append("у вас всего 10 попыток, чтобы его отгадать.\n")
+            .append("Если у вас не получится, то компьютер загадает новое число\n")
+            .append("и у вас снова будет 10 попыток...").toString();
 
-    public static final String START_TEXT = "<html><center>Я загадаю любое число от 0 до 999.</center>" +
-                                            "<br>Отгадаешь число с 10 попыток, получишь подсказку! " +
-                                            "Начнём?</br></html>";
+    public static final String START_TEXT = new StringBuilder()
+            .append("<html><center>Я загадаю любое число от 0 до 999.</center>")
+            .append("<br>Отгадаешь число с 10 попыток, получишь подсказку! ")
+            .append("Начнём?</br></html>").toString();
 
     public static final String ENTER_NUMBER = "<html><center>Попытка №%s введи число:</center></html>";
 
-    // ссылка на картинку
+    /* ссылка на картинку */
     public static final String IMAGINE = "/mr_matrix.jpg";
 }
