@@ -4,7 +4,6 @@ import javax.swing.*;
 import static game.Messages.*;
 
 public class Controller {
-    private static Controller game;
     private final View view;
     private final Model model;
 
@@ -91,19 +90,19 @@ public class Controller {
     }
 
     private boolean isGameOver(int useNumber) {
-        boolean gameOver = false;
+        boolean end = false;
 
         if (model.getMoveNumber() > 10 && model.getSecretNumber() != useNumber) {
             gameOver();
-            gameOver = true;
+            end = true;
         }
 
         if (model.getSecretNumber() == useNumber) {
             victory();
-            gameOver = true;
+            end = true;
         }
 
-        return gameOver;
+        return end;
     }
 
     private void gameOver() {
@@ -124,12 +123,5 @@ public class Controller {
         view.dispose();
         Model.notFirstGame();
         MainClass.start();
-    }
-
-    public static Controller getGame() {
-        return game;
-    }
-    public static void setGame(Controller game) {
-        Controller.game = game;
     }
 }

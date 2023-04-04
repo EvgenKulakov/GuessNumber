@@ -40,7 +40,7 @@
                             </jre>
                             <versionInfo>
                                 <fileVersion>1.2.0.0</fileVersion>
-                                <trademarks>${project.organization.name}©</trademarks>
+                                <trademarks>${project.organization.name} ®</trademarks>
                                 <internalName>${project.build.finalName}</internalName>
                                 <originalFilename>GuessTheNumber.exe</originalFilename>
                             </versionInfo>

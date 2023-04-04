@@ -8,7 +8,7 @@ public class MainClass {
     public static void start() {
         View view = new View();
         Model model = new Model();
-        Controller.setGame(new Controller(view, model));
-        view.setController(Controller.getGame());
+        Controller controller = new Controller(view, model);
+        view.setController(controller);
     }
 }

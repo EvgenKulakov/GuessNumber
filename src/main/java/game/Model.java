@@ -24,6 +24,7 @@ public class Model {
     private void initializeMoveNumber() {
         moveNumber = 1;
     }
+
     private void resetUseNumbers() {
         useNumbers = new HashSet<>(9);
     }
