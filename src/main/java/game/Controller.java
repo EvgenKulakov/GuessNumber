@@ -12,6 +12,7 @@ public class Controller {
         this.model = model;
     }
 
+    /* левая кнопка */
     public void actionLeftButton(String buttonText) {
         switch (buttonText) {
             case BUTTON_NO_GAME:
@@ -26,6 +27,7 @@ public class Controller {
         }
     }
 
+    /* правая кнопка */
     public void actionRightButton(String buttonText) {
         switch (buttonText) {
             case BUTTON_FORTH:
@@ -43,7 +45,7 @@ public class Controller {
 
     private void readAndMove() {
         try {
-            String text = view.getInputText().getText().trim();
+            String text = view.getInputText().getText();
             nextMove(Integer.parseInt(text));
         } catch (NumberFormatException ignored) {
             view.showDialog(ERROR, INCORRECT_CHAR, JOptionPane.ERROR_MESSAGE);
@@ -51,15 +53,20 @@ public class Controller {
     }
 
     private void nextMove(int useNumber) {
-        /* проверка корректности ввода */
-        if (!checkNumber(useNumber)) return;
+        /* число уже было? */
+        if (model.getUseNumbers().contains(useNumber)) {
+            view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
+                    JOptionPane.QUESTION_MESSAGE);
+            return;
+        }
 
+        /* ход */
         model.incrementMoveNumber();
 
         /* проверка окончания игры */
         if (isGameOver(useNumber)) return;
 
-        /* ход */
+        /* действия после хода */
         if (model.getSecretNumber() < useNumber) {
             view.showDialog(WRONG, NUMBER_LESS, JOptionPane.WARNING_MESSAGE);
         }
@@ -70,23 +77,6 @@ public class Controller {
 
         view.getLabelText().setText(String.format(ENTER_NUMBER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
-    }
-
-    private boolean checkNumber(int useNumber) {
-        boolean check = true;
-
-        if (useNumber > 999 || useNumber < 0) { // число больше или меньше возможного
-            view.showDialog(ERROR, ERROR_NUMBER, JOptionPane.ERROR_MESSAGE);
-            check = false;
-        }
-
-        if (model.getUseNumbers().contains(useNumber)) { // число уже было
-            view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
-                    JOptionPane.QUESTION_MESSAGE);
-            check = false;
-        }
-
-        return check;
     }
 
     private boolean isGameOver(int useNumber) {

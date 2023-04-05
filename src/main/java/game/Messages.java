@@ -19,7 +19,6 @@ public class Messages {
     public static final String YOU_ARE_WELCOME = "Пожалуйста!";
 
     /* сообщения */
-    public static final String ERROR_NUMBER = "Нужно ввести число от 0 до 999";
     public static final String INCORRECT_CHAR = "Ты, наверно, ошибся. Нужно ввести цифры.";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
     public static final String HINT = "<html>Подсказка:<br>Четвёртая цифра ПЯТЬ!</br><html>";

@@ -40,6 +40,7 @@ public class View extends JFrame {
         labelText.setText(Messages.START_TEXT);
         panelText.add(labelText);
         inputText.setHorizontalAlignment(JTextField.CENTER);
+        inputText.setDocument(new NumericDocument());
         inputText.setVisible(false);
         panelText.add(inputText);
         panelMain.add(panelText, BorderLayout.CENTER);

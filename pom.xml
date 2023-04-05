@@ -6,7 +6,7 @@
 
     <groupId>ru.questsfera</groupId>
     <artifactId>GuessTheNumber</artifactId>
-    <version>2.0</version>
+    <version>3.0</version>
 
     <build>
         <plugins>
@@ -39,7 +39,7 @@
                                 <runtimeBits>32</runtimeBits>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.2.0.0</fileVersion>
+                                <fileVersion>1.3.0.0</fileVersion>
                                 <trademarks>${project.organization.name} ®</trademarks>
                                 <internalName>${project.build.finalName}</internalName>
                                 <originalFilename>GuessTheNumber.exe</originalFilename>
