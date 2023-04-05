@@ -44,11 +44,11 @@ public class Controller {
     }
 
     private void readAndMove() {
-        try {
-            String text = view.getInputText().getText();
+        String text = view.getInputText().getText();
+        if (!text.isEmpty()) {
             nextMove(Integer.parseInt(text));
-        } catch (NumberFormatException ignored) {
-            view.showDialog(ERROR, INCORRECT_CHAR, JOptionPane.ERROR_MESSAGE);
+        } else {
+            view.showDialog(ERROR, EMPTY_STRING, JOptionPane.ERROR_MESSAGE);
         }
     }
 
