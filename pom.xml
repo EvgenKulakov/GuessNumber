@@ -7,6 +7,11 @@
     <groupId>ru.questsfera</groupId>
     <artifactId>GuessTheNumber</artifactId>
     <version>3.0</version>
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -55,10 +60,5 @@
     <organization><name>QuestSfera</name></organization>
     <inceptionYear>2023</inceptionYear>
     <description>GuessTheNumber</description>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
 
 </project>
