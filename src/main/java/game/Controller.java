@@ -98,7 +98,7 @@ public class Controller {
     private void gameOver() {
         view.showDialog(Messages.YOU_LOSE,
                 String.format(CORRECT_ANSWER, model.getSecretNumber()),
-                JOptionPane.ERROR_MESSAGE);
+                BUTTON_REBOOT, JOptionPane.ERROR_MESSAGE);
         repeatGame();
     }
 

@@ -9,6 +9,7 @@ public class Messages {
     public static final String BUTTON_MANUAL = "Инструкция";
     public static final String BUTTON_CLUE = "Подсказка";
     public static final String BUTTON_THANKS = "Спасибо";
+    public static final String BUTTON_REBOOT = "ПЕРЕЗАГРУЗКА";
 
     /* titles */
     public static final String MAIN_WINDOW = "Угадай число";

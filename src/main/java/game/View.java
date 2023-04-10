@@ -96,6 +96,17 @@ public class View extends JFrame {
                 message, title, jOptionPane);
     }
 
+    public void showDialog(String title, String message, String buttonText, int jOptionPane) {
+        Object[] options = {buttonText};
+        JOptionPane.showOptionDialog(
+                getContentPane(),
+                message, title,
+                JOptionPane.DEFAULT_OPTION,
+                jOptionPane, null,
+                options, options[0]
+        );
+    }
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
