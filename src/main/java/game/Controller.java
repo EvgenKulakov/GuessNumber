@@ -33,8 +33,9 @@ public class Controller {
             case BUTTON_FORTH:
                 checkAndMove(inputText);
                 break;
-            case BUTTON_CLUE:
-                view.showDialog(BUTTON_CLUE, SECOND_HINT, JOptionPane.INFORMATION_MESSAGE);
+            case BUTTON_I_KNEW:
+                view.showDialog(NOT_FUNNY, YOU_DID_NOT_KNOW,
+                        JOptionPane.WARNING_MESSAGE);
                 break;
             case BUTTON_LETS_GAME:
             case BUTTON_PLAY_MORE:
@@ -43,7 +44,7 @@ public class Controller {
         }
     }
 
-    private void checkAndMove(String inputText) {
+    public void checkAndMove(String inputText) {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
@@ -101,11 +102,13 @@ public class Controller {
         repeatGame();
     }
 
-    private void victory() {
+    public void victory() {
         view.showDialog(String.format(VICTORY, model.getSecretNumber()), HINT,
                 JOptionPane.INFORMATION_MESSAGE);
+        view.getLabelText().setText(HINT);
+        view.getInputText().setVisible(false);
         view.getButtonLeft().setText(BUTTON_THANKS);
-        view.getButtonRight().setText(BUTTON_CLUE);
+        view.getButtonRight().setText(BUTTON_I_KNEW);
     }
 
     private void repeatGame() {

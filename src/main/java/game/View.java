@@ -85,7 +85,7 @@ public class View extends JFrame {
         inputText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.actionRightButton(buttonRight.getText(), inputText.getText());
+                controller.checkAndMove(inputText.getText());
             }
         });
         revalidate();
@@ -118,5 +118,8 @@ public class View extends JFrame {
     }
     public JLabel getLabelText() {
         return labelText;
+    }
+    public JTextField getInputText() {
+        return inputText;
     }
 }

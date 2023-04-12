@@ -7,8 +7,8 @@ public class Messages {
     public static final String BUTTON_PLAY_MORE = "Играть ещё!";
     public static final String BUTTON_FORTH = "Далее";
     public static final String BUTTON_MANUAL = "Инструкция";
-    public static final String BUTTON_CLUE = "Подсказка";
     public static final String BUTTON_THANKS = "Спасибо";
+    public static final String BUTTON_I_KNEW = "Я знал!";
     public static final String BUTTON_REBOOT = "ПЕРЕЗАГРУЗКА";
 
     /* titles */
@@ -18,6 +18,7 @@ public class Messages {
     public static final String WRONG = "Неправильно";
     public static final String YOU_LOSE = "Ты проиграл!";
     public static final String YOU_ARE_WELCOME = "Пожалуйста!";
+    public static final String NOT_FUNNY = "Не смеши";
 
     /* сообщения */
     public static final String EMPTY_STRING = "Введи ЧИСЛО, чтобы сделать ХОД!";
@@ -27,8 +28,9 @@ public class Messages {
     public static final String NUMBER_LESS = "Загаданное число МЕНЬШЕ!";
     public static final String NUMBER_GREATER = "Загаданное число БОЛЬШЕ!";
     public static final String CORRECT_ANSWER = "Правильный ответ был %s";
-    public static final String NO_GAME = "Нет игры - нет подсказки!";
+    public static final String NO_GAME = "  Нет игры - нет подсказки!";
     public static final String BYE = "До встречи в реальном мире!";
+    public static final String YOU_DID_NOT_KNOW = "      Ничего ты не знал!";
 
     /* texts */
     public static final String MANUAL = new StringBuilder()
@@ -42,7 +44,7 @@ public class Messages {
             .append("<br>Отгадаешь число с 10 попыток, получишь подсказку! ")
             .append("Начнём?</br></html>").toString();
 
-    public static final String ENTER_NUMBER = "<html><center>Попытка №%s введи число:</center></html>";
+    public static final String ENTER_NUMBER = "Попытка №%s введи число:";
 
     /* ссылка на картинку */
     public static final String IMAGINE = "/mr_matrix.jpg";
