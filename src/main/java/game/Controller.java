@@ -28,10 +28,10 @@ public class Controller {
     }
 
     /* правая кнопка */
-    public void actionRightButton(String buttonText) {
+    public void actionRightButton(String buttonText, String inputText) {
         switch (buttonText) {
             case BUTTON_FORTH:
-                readAndMove();
+                checkAndMove(inputText);
                 break;
             case BUTTON_CLUE:
                 view.showDialog(BUTTON_CLUE, SECOND_HINT, JOptionPane.INFORMATION_MESSAGE);
@@ -43,10 +43,9 @@ public class Controller {
         }
     }
 
-    private void readAndMove() {
-        String text = view.getInputText().getText();
-        if (!text.isEmpty()) {
-            nextMove(Integer.parseInt(text));
+    private void checkAndMove(String inputText) {
+        if (!inputText.isEmpty()) {
+            nextMove(Integer.parseInt(inputText));
         } else {
             view.showDialog(ERROR, EMPTY_STRING, JOptionPane.ERROR_MESSAGE);
         }
@@ -60,7 +59,7 @@ public class Controller {
             return;
         }
 
-        /* ход */
+        /* увеличение количества попыток */
         model.incrementMoveNumber();
 
         /* проверка окончания игры */
