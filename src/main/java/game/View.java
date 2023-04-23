@@ -1,137 +1,194 @@
 package game;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
-public class View extends JFrame {
+public class View {
+    private Stage primaryStage;
     private Controller controller;
-    private final JPanel panelMain = new JPanel();
-    private final JPanel panelImg = new JPanel();
-    private final JPanel panelText = new JPanel();
-    private final JPanel panelButton = new JPanel();
-    private final ImageIcon img = new ImageIcon(getClass().getResource(Messages.IMAGINE));
-    private final JLabel labelImg = new JLabel(img, JLabel.CENTER);
-    private final JLabel labelText = new JLabel();
-    private final JButton buttonLeft = new JButton();
-    private final JButton buttonRight = new JButton();
-    private final JTextField inputText = new JTextField(3);
+    private final BorderPane root = new BorderPane();
 
-    public View() {
+    private final HBox imgBox = new HBox();
+    private final Image img = new Image(getClass().getResourceAsStream(Messages.IMAGINE));
+    private final ImageView imageView = new ImageView(img);
+
+    private final StackPane centralPane = new StackPane();
+    private final HBox textAndInputBox = new HBox();
+    private final Label textLabel = new Label(Messages.START_TEXT);
+    private final TextField inputText = new TextField();
+
+    private final HBox bottomBox = new HBox();
+    private final Button buttonLeft = new Button(Messages.BUTTON_NO_GAME);
+    private final Button buttonCenter = new Button(Messages.BUTTON_REBOOT);
+    private final Button buttonRight = new Button();
+
+
+    public View(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         initView();
     }
 
-    private void initView() {
+    public void initView() {
         /* Инициализация главного окна */
-        setTitle(Messages.MAIN_WINDOW);
-        setSize(600, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-        setResizable(false);
-        setIconImage(img.getImage());
+        Scene scene = new Scene(root, 600, 610);
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(600);
+        primaryStage.setHeight(610);
+        primaryStage.show();
+        primaryStage.setTitle(Messages.MAIN_WINDOW);
+        primaryStage.setResizable(false);
+        primaryStage.getIcons().add(img);
 
         /* Панель с картинкой */
-        panelImg.add(labelImg);
-        panelMain.add(panelImg, BorderLayout.PAGE_START);
+        Rectangle rectangle = new Rectangle(img.getWidth(), img.getHeight());
+        rectangle.setArcWidth(5);
+        rectangle.setArcHeight(5);
+        imageView.setClip(rectangle);
+        imgBox.getChildren().add(imageView);
+        imgBox.setAlignment(Pos.CENTER);
+        imgBox.setTranslateY(5);
+        root.setTop(imgBox);
 
         /* Панель с текстом */
-        labelText.setText(Messages.START_TEXT);
-        panelText.add(labelText);
-        panelMain.add(panelText, BorderLayout.CENTER);
+        textLabel.setStyle("-fx-font-family: Calibri; -fx-font-size: 15.5; -fx-font-weight: bold;");
+        BackgroundFill fill = new BackgroundFill(Color.web("#DCDCDC"), new CornerRadii(5), Insets.EMPTY);
+        centralPane.setBackground(new Background(fill));
+        centralPane.setPadding(new Insets(10));
+        centralPane.setMaxHeight(80);
+        centralPane.setMaxWidth(480);
+        centralPane.getChildren().add(textLabel);
+        root.setCenter(centralPane);
 
-        /* Панель с кнопками */
-        buttonLeft.setText(Messages.BUTTON_NO_GAME);
+        /* Кнопки */
         String buttonRightText = Model.isNotFirstGame()
                 ? Messages.BUTTON_PLAY_MORE
                 : Messages.BUTTON_LETS_GAME;
         buttonRight.setText(buttonRightText);
-        buttonLeft.setPreferredSize(new Dimension(150, 50));
-        buttonRight.setPreferredSize(new Dimension(150, 50));
+        buttonLeft.setPrefSize(234, 50);
+        buttonRight.setPrefSize(234, 50);
+
+        /* Панель с кнопками */
+        bottomBox.getChildren().addAll(buttonLeft, buttonRight);
+        bottomBox.setPadding(new Insets(10));
+        bottomBox.setSpacing(10);
+        bottomBox.setAlignment(Pos.CENTER);
+        bottomBox.setTranslateY(-15);
+        root.setBottom(bottomBox);
 
         /* слушатели для кнопок */
-        buttonLeft.addActionListener(new ActionListener() {
+        buttonLeft.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void handle(ActionEvent e) {
                 controller.actionLeftButton(buttonLeft.getText());
             }
         });
 
-        buttonRight.addActionListener(new ActionListener() {
+        buttonRight.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void handle(ActionEvent e) {
                 controller.actionRightButton(buttonRight.getText(), inputText.getText());
             }
         });
-
-        panelButton.add(buttonLeft);
-        panelButton.add(buttonRight);
-        panelMain.add(panelButton, BorderLayout.PAGE_END);
-        getContentPane().add(panelMain);
-        revalidate();
     }
 
-     public void initStartGame() {
+    public void initStartGame() {
+        textLabel.setText(String.format(Messages.ENTER_NUMBER, 1));
+        inputText.setMaxWidth(50);
+
+        textAndInputBox.getChildren().addAll(textLabel, inputText);
+        textAndInputBox.setAlignment(Pos.CENTER);
+        textAndInputBox.setSpacing(30);
+
+        centralPane.getChildren().add(textAndInputBox);
+        textLabel.setAlignment(Pos.CENTER_LEFT);
+        inputText.setAlignment(Pos.CENTER_RIGHT);
+        inputText.setAlignment(javafx.geometry.Pos.CENTER);
+
+        bottomBox.getChildren().add(1, buttonCenter);
         buttonLeft.setText(Messages.BUTTON_MANUAL);
-        buttonRight.setText(Messages.BUTTON_FORTH);
+        buttonRight.setText(Messages.BUTTON_MOVE);
+        buttonLeft.setPrefSize(100, 50);
+        buttonCenter.setPrefSize(100, 50);
+        buttonRight.setPrefSize(259, 50);
 
-        labelText.setText(String.format(Messages.ENTER_NUMBER, 1));
-
-        inputText.setHorizontalAlignment(JTextField.CENTER);
-        /* фильтр ввода цифр */
-        inputText.setDocument(new NumericDocument());
-        /* можно нажать на Enter вместо правой кнопки */
-        inputText.addActionListener(new ActionListener() {
+        /* фильтр ввода цифр: можно вводить только цифры и не более трех */
+        inputText.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    inputText.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+                if (newValue.length() > 3) {
+                    inputText.setText(oldValue);
+                }
+            }
+        });
+
+        inputText.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
                 controller.parseAndMove(inputText.getText());
             }
         });
-        panelText.add(inputText);
-
-        /* рамка */
-        Border borderLine = BorderFactory.createLineBorder(Color.darkGray, 2, true);
-        Border borderEmpty = BorderFactory.createEmptyBorder(0, 3, 0, 3);
-        Border borderCompound = BorderFactory.createCompoundBorder(borderLine, borderEmpty);
-        panelText.setBorder(borderCompound);
-
-        revalidate();
     }
 
-    public void showDialog(String title, String message, int jOptionPane) {
-        JOptionPane.showMessageDialog(getContentPane(),
-                message, title, jOptionPane);
+    public void showDialog(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.setX(primaryStage.getX() + 85);
+        alert.setY(primaryStage.getY() + 274);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        alert.showAndWait();
     }
 
-    public void showDialog(String title, String message, String buttonText, int jOptionPane) {
-        Object[] options = {buttonText};
-        JOptionPane.showOptionDialog(
-                getContentPane(),
-                message, title,
-                JOptionPane.DEFAULT_OPTION,
-                jOptionPane, null,
-                options, options[0]
-        );
+    public void showDialog(String title, String message, String buttonText, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.setX(primaryStage.getX() + 85);
+        alert.setY(primaryStage.getY() + 274);
+
+        ButtonType buttonType = new ButtonType(buttonText);
+        alert.getButtonTypes().setAll(buttonType);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        alert.showAndWait();
     }
 
     public void setController(Controller controller) {
         this.controller = controller;
     }
-    public JButton getButtonRight() {
+    public Button getButtonRight() {
         return buttonRight;
     }
-    public JButton getButtonLeft() {
+    public Button getButtonLeft() {
         return buttonLeft;
     }
-    public JLabel getLabelText() {
-        return labelText;
+    public Label getTextLabel() {
+        return textLabel;
     }
-    public JTextField getInputText() {
+    public TextField getInputText() {
         return inputText;
     }
-    public JPanel getPanelText() {
-        return panelText;
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

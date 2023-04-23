@@ -1,6 +1,8 @@
 package game;
 
-import javax.swing.*;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
+
 import static game.Messages.*;
 
 public class Controller {
@@ -16,13 +18,13 @@ public class Controller {
     public void actionLeftButton(String buttonText) {
         switch (buttonText) {
             case BUTTON_NO_GAME:
-                view.showDialog(BUTTON_NO_GAME, Messages.NO_GAME, JOptionPane.ERROR_MESSAGE);
+                view.showDialog(BUTTON_NO_GAME, NO_GAME, Alert.AlertType.ERROR);
                 break;
             case BUTTON_MANUAL:
-                view.showDialog(BUTTON_MANUAL, Messages.MANUAL, JOptionPane.INFORMATION_MESSAGE);
+                view.showDialog(BUTTON_MANUAL, MANUAL, Alert.AlertType.INFORMATION);
                 break;
             case BUTTON_THANKS:
-                view.showDialog(YOU_ARE_WELCOME, BYE, JOptionPane.INFORMATION_MESSAGE);
+                view.showDialog(YOU_ARE_WELCOME, BYE, Alert.AlertType.INFORMATION);
                 break;
         }
     }
@@ -30,12 +32,12 @@ public class Controller {
     /* правая кнопка */
     public void actionRightButton(String buttonText, String inputText) {
         switch (buttonText) {
-            case BUTTON_FORTH:
+            case BUTTON_MOVE:
                 parseAndMove(inputText);
                 break;
             case BUTTON_I_KNEW:
                 view.showDialog(NOT_FUNNY, YOU_DID_NOT_KNOW,
-                        JOptionPane.WARNING_MESSAGE);
+                        Alert.AlertType.WARNING);
                 break;
             case BUTTON_LETS_GAME:
             case BUTTON_PLAY_MORE:
@@ -48,7 +50,7 @@ public class Controller {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
-            view.showDialog(ERROR, EMPTY_STRING, JOptionPane.ERROR_MESSAGE);
+            view.showDialog(ERROR, EMPTY_STRING, Alert.AlertType.ERROR);
         }
     }
 
@@ -56,7 +58,7 @@ public class Controller {
         /* число уже было? */
         if (model.getUseNumbers().contains(useNumber)) {
             view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
-                    JOptionPane.QUESTION_MESSAGE);
+                    Alert.AlertType.CONFIRMATION);
             return;
         }
 
@@ -68,14 +70,14 @@ public class Controller {
 
         /* действия после хода */
         if (model.getSecretNumber() < useNumber) {
-            view.showDialog(WRONG, NUMBER_LESS, JOptionPane.WARNING_MESSAGE);
+            view.showDialog(WRONG, NUMBER_LESS, Alert.AlertType.WARNING);
         }
 
         if (model.getSecretNumber() > useNumber) {
-            view.showDialog(WRONG, NUMBER_GREATER, JOptionPane.WARNING_MESSAGE);
+            view.showDialog(WRONG, NUMBER_GREATER, Alert.AlertType.WARNING);
         }
 
-        view.getLabelText().setText(String.format(ENTER_NUMBER, model.getMoveNumber()));
+        view.getTextLabel().setText(String.format(ENTER_NUMBER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
 
@@ -95,26 +97,25 @@ public class Controller {
         return end;
     }
 
-    private void gameOver() {
+    public void gameOver() {
         view.showDialog(Messages.YOU_LOSE,
                 String.format(CORRECT_ANSWER, model.getSecretNumber()),
-                BUTTON_REBOOT, JOptionPane.ERROR_MESSAGE);
+                BUTTON_REBOOT, Alert.AlertType.ERROR);
         repeatGame();
     }
 
     public void victory() {
         view.showDialog(String.format(VICTORY, model.getSecretNumber()), HINT,
-                JOptionPane.INFORMATION_MESSAGE);
-        view.getPanelText().setBorder(null);
-        view.getLabelText().setText(HINT);
+                Alert.AlertType.INFORMATION);
+        view.getTextLabel().setText(HINT);
         view.getInputText().setVisible(false);
         view.getButtonLeft().setText(BUTTON_THANKS);
         view.getButtonRight().setText(BUTTON_I_KNEW);
     }
 
-    private void repeatGame() {
-        view.dispose();
+    public void repeatGame() {
         Model.notFirstGame();
-        MainClass.start();
+        view.getPrimaryStage().close();
+        MainClass.startWindow(new Stage());
     }
 }

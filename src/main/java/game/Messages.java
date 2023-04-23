@@ -5,11 +5,11 @@ public class Messages {
     public static final String BUTTON_NO_GAME = "Пожалуй, не стоит";
     public static final String BUTTON_LETS_GAME = "Давай сыграем!";
     public static final String BUTTON_PLAY_MORE = "Играть ещё!";
-    public static final String BUTTON_FORTH = "Далее";
+    public static final String BUTTON_MOVE = "Далее";
     public static final String BUTTON_MANUAL = "Инструкция";
     public static final String BUTTON_THANKS = "Спасибо";
     public static final String BUTTON_I_KNEW = "Я знал!";
-    public static final String BUTTON_REBOOT = "ПЕРЕЗАГРУЗКА";
+    public static final String BUTTON_REBOOT = "Перезагрузка";
 
     /* titles */
     public static final String MAIN_WINDOW = "Угадай число";
@@ -23,7 +23,7 @@ public class Messages {
     /* сообщения */
     public static final String EMPTY_STRING = "Введи ЧИСЛО, чтобы сделать ХОД!";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
-    public static final String HINT = "<html>Подсказка:<br>Четвёртая цифра ПЯТЬ!</br><html>";
+    public static final String HINT = "Подсказка:\nЧетвёртая цифра ПЯТЬ!";
     public static final String NUMBER_LESS = "Загаданное число МЕНЬШЕ!";
     public static final String NUMBER_GREATER = "Загаданное число БОЛЬШЕ!";
     public static final String CORRECT_ANSWER = "Правильный ответ был %s";
@@ -39,9 +39,9 @@ public class Messages {
             .append("и у вас снова будет 10 попыток...").toString();
 
     public static final String START_TEXT = new StringBuilder()
-            .append("<html><center>Я загадаю любое число от 0 до 999.</center>")
-            .append("<br>Отгадаешь число с 10 попыток, получишь подсказку! ")
-            .append("Начнём?</br></html>").toString();
+            .append("Я загадаю любое число от 0 до 999.\n")
+            .append("Отгадаешь число с 10 попыток, получишь подсказку! ")
+            .append("Начнём?").toString();
 
     public static final String ENTER_NUMBER = "Попытка №%s введи число";
 
