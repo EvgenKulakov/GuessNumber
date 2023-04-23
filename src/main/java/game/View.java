@@ -1,6 +1,7 @@
 package game;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,10 +40,6 @@ public class View extends JFrame {
         /* Панель с текстом */
         labelText.setText(Messages.START_TEXT);
         panelText.add(labelText);
-        inputText.setHorizontalAlignment(JTextField.CENTER);
-        inputText.setDocument(new NumericDocument());
-        inputText.setVisible(false);
-        panelText.add(inputText);
         panelMain.add(panelText, BorderLayout.CENTER);
 
         /* Панель с кнопками */
@@ -79,15 +76,27 @@ public class View extends JFrame {
      public void initStartGame() {
         buttonLeft.setText(Messages.BUTTON_MANUAL);
         buttonRight.setText(Messages.BUTTON_FORTH);
+
         labelText.setText(String.format(Messages.ENTER_NUMBER, 1));
-        inputText.setVisible(true);
+
+        inputText.setHorizontalAlignment(JTextField.CENTER);
+        /* фильтр ввода цифр */
+        inputText.setDocument(new NumericDocument());
         /* можно нажать на Enter вместо правой кнопки */
         inputText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.checkAndMove(inputText.getText());
+                controller.parseAndMove(inputText.getText());
             }
         });
+        panelText.add(inputText);
+
+        /* рамка */
+        Border borderLine = BorderFactory.createLineBorder(Color.darkGray, 2, true);
+        Border borderEmpty = BorderFactory.createEmptyBorder(0, 3, 0, 3);
+        Border borderCompound = BorderFactory.createCompoundBorder(borderLine, borderEmpty);
+        panelText.setBorder(borderCompound);
+
         revalidate();
     }
 
@@ -121,5 +130,8 @@ public class View extends JFrame {
     }
     public JTextField getInputText() {
         return inputText;
+    }
+    public JPanel getPanelText() {
+        return panelText;
     }
 }

@@ -24,11 +24,10 @@ public class Messages {
     public static final String EMPTY_STRING = "Введи ЧИСЛО, чтобы сделать ХОД!";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
     public static final String HINT = "<html>Подсказка:<br>Четвёртая цифра ПЯТЬ!</br><html>";
-    public static final String SECOND_HINT = "Четвёртая цифра ПЯТЬ!";
     public static final String NUMBER_LESS = "Загаданное число МЕНЬШЕ!";
     public static final String NUMBER_GREATER = "Загаданное число БОЛЬШЕ!";
     public static final String CORRECT_ANSWER = "Правильный ответ был %s";
-    public static final String NO_GAME = "  Нет игры - нет подсказки!";
+    public static final String NO_GAME = " Нет игры - нет подсказки!";
     public static final String BYE = "До встречи в реальном мире!";
     public static final String YOU_DID_NOT_KNOW = "      Ничего ты не знал!";
 
@@ -44,7 +43,7 @@ public class Messages {
             .append("<br>Отгадаешь число с 10 попыток, получишь подсказку! ")
             .append("Начнём?</br></html>").toString();
 
-    public static final String ENTER_NUMBER = "Попытка №%s введи число:";
+    public static final String ENTER_NUMBER = "Попытка №%s введи число";
 
     /* ссылка на картинку */
     public static final String IMAGINE = "/mr_matrix.jpg";

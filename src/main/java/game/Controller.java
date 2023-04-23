@@ -31,7 +31,7 @@ public class Controller {
     public void actionRightButton(String buttonText, String inputText) {
         switch (buttonText) {
             case BUTTON_FORTH:
-                checkAndMove(inputText);
+                parseAndMove(inputText);
                 break;
             case BUTTON_I_KNEW:
                 view.showDialog(NOT_FUNNY, YOU_DID_NOT_KNOW,
@@ -44,7 +44,7 @@ public class Controller {
         }
     }
 
-    public void checkAndMove(String inputText) {
+    public void parseAndMove(String inputText) {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
@@ -105,6 +105,7 @@ public class Controller {
     public void victory() {
         view.showDialog(String.format(VICTORY, model.getSecretNumber()), HINT,
                 JOptionPane.INFORMATION_MESSAGE);
+        view.getPanelText().setBorder(null);
         view.getLabelText().setText(HINT);
         view.getInputText().setVisible(false);
         view.getButtonLeft().setText(BUTTON_THANKS);

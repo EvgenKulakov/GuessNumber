@@ -6,7 +6,7 @@
 
     <groupId>ru.questsfera</groupId>
     <artifactId>GuessTheNumber</artifactId>
-    <version>3.0</version>
+    <version>1.0</version>
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
@@ -31,7 +31,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                            <outfile>Игра Угадай число.exe</outfile>
+                            <outfile>${project.build.directory}/Игра Угадай число.exe</outfile>
                             <errTitle>Error in ${project.build.finalName}</errTitle>
                             <classPath>
                                 <mainClass>game.MainClass</mainClass>
