@@ -1,6 +1,6 @@
 # Project exclude paths
 /out/
-/target/
-!/target/Игра Угадай число.exe
+/target/*
+!target/Игра Угадай число.exe
 /.idea/
 *.iml
