@@ -1,11 +1,10 @@
-package game;
-
+import game.Controller;
 import game.model.Model;
 import game.view.View;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class MainClass extends Application {
+public class TestVictory extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -17,6 +16,9 @@ public class MainClass extends Application {
         Model model = new Model();
         Controller controller = new Controller(view, model);
         view.setController(controller);
+
+        view.initStartGame();
+        controller.victory();
     }
 
     public static void main(String[] args) {

@@ -8,28 +8,10 @@
     <artifactId>GuessTheNumber</artifactId>
     <version>1.0</version>
     <properties>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>21-ea+5</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx</artifactId>
-            <version>21-ea+5</version>
-            <type>pom</type>
-        </dependency>
-
-    </dependencies>
 
     <build>
         <plugins>
@@ -57,7 +39,7 @@
                             </classPath>
                             <jre>
                                 <path>C:\Users\Stvolya\.jdks\liberica-17.0.6</path>
-                                <minVersion>1.7.0</minVersion>
+                                <minVersion>1.8.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
                                 <runtimeBits>32</runtimeBits>
                             </jre>

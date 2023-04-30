@@ -1,15 +1,6 @@
-package game;
+package game.model;
 
 public class Messages {
-    /* кнопки */
-    public static final String BUTTON_NO_GAME = "Пожалуй, не стоит";
-    public static final String BUTTON_LETS_GAME = "Давай сыграем!";
-    public static final String BUTTON_PLAY_MORE = "Играть ещё!";
-    public static final String BUTTON_MOVE = "Далее";
-    public static final String BUTTON_MANUAL = "Инструкция";
-    public static final String BUTTON_THANKS = "Спасибо";
-    public static final String BUTTON_I_KNEW = "Я знал!";
-    public static final String BUTTON_REBOOT = "Перезагрузка";
 
     /* titles */
     public static final String MAIN_WINDOW = "Угадай число";
@@ -17,7 +8,7 @@ public class Messages {
     public static final String VICTORY = "Ты угадал! Это число %s";
     public static final String WRONG = "Неправильно";
     public static final String YOU_LOSE = "Ты проиграл!";
-    public static final String YOU_ARE_WELCOME = "Пожалуйста!";
+    public static final String YOU_WELCOME = "Пожалуйста!";
     public static final String NOT_FUNNY = "Не смеши";
 
     /* сообщения */
@@ -26,10 +17,10 @@ public class Messages {
     public static final String HINT = "Подсказка:\nЧетвёртая цифра ПЯТЬ!";
     public static final String NUMBER_LESS = "Загаданное число МЕНЬШЕ!";
     public static final String NUMBER_GREATER = "Загаданное число БОЛЬШЕ!";
-    public static final String CORRECT_ANSWER = "Правильный ответ был %s";
-    public static final String NO_GAME = " Нет игры - нет подсказки!";
+    public static final String ANSWER = "Правильный ответ был %s";
+    public static final String NO_CLUE = "Нет игры - нет подсказки!";
     public static final String BYE = "До встречи в реальном мире!";
-    public static final String YOU_DID_NOT_KNOW = "      Ничего ты не знал!";
+    public static final String NOT_KNOW = "Ничего ты не знал!";
 
     /* texts */
     public static final String MANUAL = new StringBuilder()
@@ -43,8 +34,5 @@ public class Messages {
             .append("Отгадаешь число с 10 попыток, получишь подсказку! ")
             .append("Начнём?").toString();
 
-    public static final String ENTER_NUMBER = "Попытка №%s введи число";
-
-    /* ссылка на картинку */
-    public static final String IMAGINE = "/mr_matrix.jpg";
+    public static final String ENTER = "Попытка №%s введи число";
 }

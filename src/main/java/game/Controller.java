@@ -1,9 +1,12 @@
 package game;
 
-import javafx.scene.control.Alert;
+import game.model.Buttons;
+import game.model.Icons;
+import game.model.Messages;
+import game.model.Model;
+import game.view.View;
+import game.view.ViewDialog;
 import javafx.stage.Stage;
-
-import static game.Messages.*;
 
 public class Controller {
     private final View view;
@@ -17,14 +20,14 @@ public class Controller {
     /* левая кнопка */
     public void actionLeftButton(String buttonText) {
         switch (buttonText) {
-            case BUTTON_NO_GAME:
-                view.showDialog(BUTTON_NO_GAME, NO_GAME, Alert.AlertType.ERROR);
+            case Buttons.NO_GAME:
+                ViewDialog.showDialog(Buttons.NO_GAME, Messages.NO_CLUE, Icons.BLOCK);
                 break;
-            case BUTTON_MANUAL:
-                view.showDialog(BUTTON_MANUAL, MANUAL, Alert.AlertType.INFORMATION);
+            case Buttons.MANUAL:
+                ViewDialog.showDialog(Buttons.MANUAL, Messages.MANUAL, Icons.MANUAL);
                 break;
-            case BUTTON_THANKS:
-                view.showDialog(YOU_ARE_WELCOME, BYE, Alert.AlertType.INFORMATION);
+            case Buttons.THANKS:
+                ViewDialog.showDialog(Messages.YOU_WELCOME, Messages.BYE, Icons.THANKS);
                 break;
         }
     }
@@ -32,15 +35,14 @@ public class Controller {
     /* правая кнопка */
     public void actionRightButton(String buttonText, String inputText) {
         switch (buttonText) {
-            case BUTTON_MOVE:
+            case Buttons.MOVE:
                 parseAndMove(inputText);
                 break;
-            case BUTTON_I_KNEW:
-                view.showDialog(NOT_FUNNY, YOU_DID_NOT_KNOW,
-                        Alert.AlertType.WARNING);
+            case Buttons.KNEW:
+                ViewDialog.showDialog(Messages.NOT_FUNNY, Messages.NOT_KNOW, Icons.FUNNY);
                 break;
-            case BUTTON_LETS_GAME:
-            case BUTTON_PLAY_MORE:
+            case Buttons.LETS_GAME:
+            case Buttons.PLAY_MORE:
                 view.initStartGame();
                 break;
         }
@@ -50,15 +52,16 @@ public class Controller {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
-            view.showDialog(ERROR, EMPTY_STRING, Alert.AlertType.ERROR);
+            ViewDialog.showDialog(Messages.ERROR, Messages.EMPTY_STRING, Icons.ERROR);
         }
     }
 
     private void nextMove(int useNumber) {
         /* число уже было? */
         if (model.getUseNumbers().contains(useNumber)) {
-            view.showDialog(WRONG, String.format(CHANGE_NUMBER, useNumber),
-                    Alert.AlertType.CONFIRMATION);
+            ViewDialog.showDialog(Messages.WRONG,
+                    String.format(Messages.CHANGE_NUMBER, useNumber),
+                    Icons.QUESTION);
             return;
         }
 
@@ -70,14 +73,13 @@ public class Controller {
 
         /* действия после хода */
         if (model.getSecretNumber() < useNumber) {
-            view.showDialog(WRONG, NUMBER_LESS, Alert.AlertType.WARNING);
+            ViewDialog.showDialog(Messages.WRONG, Messages.NUMBER_LESS, Icons.LOW);
         }
-
         if (model.getSecretNumber() > useNumber) {
-            view.showDialog(WRONG, NUMBER_GREATER, Alert.AlertType.WARNING);
+            ViewDialog.showDialog(Messages.WRONG, Messages.NUMBER_GREATER, Icons.HIGH);
         }
 
-        view.getTextLabel().setText(String.format(ENTER_NUMBER, model.getMoveNumber()));
+        view.getTextLabel().setText(String.format(Messages.ENTER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
 
@@ -98,19 +100,19 @@ public class Controller {
     }
 
     public void gameOver() {
-        view.showDialog(Messages.YOU_LOSE,
-                String.format(CORRECT_ANSWER, model.getSecretNumber()),
-                BUTTON_REBOOT, Alert.AlertType.ERROR);
+        ViewDialog.showDialog(Messages.YOU_LOSE,
+                String.format(Messages.ANSWER, model.getSecretNumber()),
+                Buttons.REBOOT.toUpperCase(), Icons.BLOCK);
         repeatGame();
     }
 
     public void victory() {
-        view.showDialog(String.format(VICTORY, model.getSecretNumber()), HINT,
-                Alert.AlertType.INFORMATION);
-        view.getTextLabel().setText(HINT);
+        ViewDialog.showDialog(String.format(Messages.VICTORY, model.getSecretNumber()),
+                Messages.HINT, Icons.VICTORY);
+        view.getTextLabel().setText(Messages.HINT);
         view.getInputText().setVisible(false);
-        view.getButtonLeft().setText(BUTTON_THANKS);
-        view.getButtonRight().setText(BUTTON_I_KNEW);
+        view.getButtonLeft().setText(Buttons.THANKS);
+        view.getButtonRight().setText(Buttons.KNEW);
     }
 
     public void repeatGame() {

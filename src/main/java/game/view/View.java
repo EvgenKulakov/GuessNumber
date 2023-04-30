@@ -1,6 +1,7 @@
-package game;
+package game.view;
 
-import javafx.beans.value.ChangeListener;
+import game.Controller;
+import game.model.*;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,12 +17,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class View {
-    private Stage primaryStage;
+    private final Stage primaryStage;
     private Controller controller;
     private final BorderPane root = new BorderPane();
 
     private final HBox imgBox = new HBox();
-    private final Image img = new Image(getClass().getResourceAsStream(Messages.IMAGINE));
+    private final Image img = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
     private final ImageView imageView = new ImageView(img);
 
     private final StackPane centralPane = new StackPane();
@@ -30,8 +31,8 @@ public class View {
     private final TextField inputText = new TextField();
 
     private final HBox bottomBox = new HBox();
-    private final Button buttonLeft = new Button(Messages.BUTTON_NO_GAME);
-    private final Button buttonCenter = new Button(Messages.BUTTON_REBOOT);
+    private final Button buttonLeft = new Button(Buttons.NO_GAME);
+    private final Button buttonCenter = new Button(Buttons.REBOOT);
     private final Button buttonRight = new Button();
 
 
@@ -62,10 +63,9 @@ public class View {
         root.setTop(imgBox);
 
         /* Панель с текстом */
-        textLabel.setStyle("-fx-font-family: Calibri; -fx-font-size: 15.5; -fx-font-weight: bold;");
-        BackgroundFill fill = new BackgroundFill(Color.web("#DCDCDC"), new CornerRadii(5), Insets.EMPTY);
-        centralPane.setBackground(new Background(fill));
-        centralPane.setPadding(new Insets(10));
+        textLabel.setStyle("-fx-font-size: 15.5;");
+        centralPane.setStyle("-fx-background-color: #DCDCDC; -fx-background-radius: 5px;" +
+                "-fx-font-family: Calibri; -fx-font-weight: bold;");
         centralPane.setMaxHeight(80);
         centralPane.setMaxWidth(480);
         centralPane.getChildren().add(textLabel);
@@ -73,8 +73,8 @@ public class View {
 
         /* Кнопки */
         String buttonRightText = Model.isNotFirstGame()
-                ? Messages.BUTTON_PLAY_MORE
-                : Messages.BUTTON_LETS_GAME;
+                ? Buttons.PLAY_MORE
+                : Buttons.LETS_GAME;
         buttonRight.setText(buttonRightText);
         buttonLeft.setPrefSize(234, 50);
         buttonRight.setPrefSize(234, 50);
@@ -88,23 +88,16 @@ public class View {
         root.setBottom(bottomBox);
 
         /* слушатели для кнопок */
-        buttonLeft.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                controller.actionLeftButton(buttonLeft.getText());
-            }
-        });
+        buttonLeft.setOnAction(e -> controller.actionLeftButton(buttonLeft.getText()));
 
-        buttonRight.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                controller.actionRightButton(buttonRight.getText(), inputText.getText());
-            }
+        buttonRight.setOnAction(e -> {
+            controller.actionRightButton(buttonRight.getText(), inputText.getText());
         });
     }
 
     public void initStartGame() {
-        textLabel.setText(String.format(Messages.ENTER_NUMBER, 1));
+        textLabel.setText(String.format(Messages.ENTER, 1));
+        inputText.setStyle("-fx-font-size: 14;");
         inputText.setMaxWidth(50);
 
         textAndInputBox.getChildren().addAll(textLabel, inputText);
@@ -117,60 +110,25 @@ public class View {
         inputText.setAlignment(javafx.geometry.Pos.CENTER);
 
         bottomBox.getChildren().add(1, buttonCenter);
-        buttonLeft.setText(Messages.BUTTON_MANUAL);
-        buttonRight.setText(Messages.BUTTON_MOVE);
+        buttonLeft.setText(Buttons.MANUAL);
+        buttonRight.setText(Buttons.MOVE);
         buttonLeft.setPrefSize(100, 50);
         buttonCenter.setPrefSize(100, 50);
         buttonRight.setPrefSize(259, 50);
 
         /* фильтр ввода цифр: можно вводить только цифры и не более трех */
-        inputText.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    inputText.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-                if (newValue.length() > 3) {
-                    inputText.setText(oldValue);
-                }
-            }
-        });
+        inputText.textProperty().addListener(this::inputFilter);
 
-        inputText.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controller.parseAndMove(inputText.getText());
-            }
-        });
+        inputText.setOnAction(event -> controller.parseAndMove(inputText.getText()));
     }
 
-    public void showDialog(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.setX(primaryStage.getX() + 85);
-        alert.setY(primaryStage.getY() + 274);
-
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.setAlwaysOnTop(true);
-        alert.showAndWait();
-    }
-
-    public void showDialog(String title, String message, String buttonText, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.setX(primaryStage.getX() + 85);
-        alert.setY(primaryStage.getY() + 274);
-
-        ButtonType buttonType = new ButtonType(buttonText);
-        alert.getButtonTypes().setAll(buttonType);
-
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.setAlwaysOnTop(true);
-        alert.showAndWait();
+    private void inputFilter(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        if (!newValue.matches("\\d*")) {
+            inputText.setText(newValue.replaceAll("[^\\d]", ""));
+        }
+        if (newValue.length() > 3) {
+            inputText.setText(oldValue);
+        }
     }
 
     public void setController(Controller controller) {
