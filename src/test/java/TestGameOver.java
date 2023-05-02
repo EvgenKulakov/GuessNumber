@@ -4,7 +4,7 @@ import game.view.View;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class TestVictory extends Application {
+public class TestGameOver extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -18,7 +18,7 @@ public class TestVictory extends Application {
         view.setController(controller);
 
         view.initStartGame();
-        controller.victory();
+        controller.gameOver();
     }
 
     public static void main(String[] args) {

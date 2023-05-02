@@ -3,8 +3,6 @@ package game.view;
 import game.Controller;
 import game.model.*;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,12 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class View {
-    private final Stage primaryStage;
+public class View extends Stage {
     private Controller controller;
     private final BorderPane root = new BorderPane();
 
@@ -36,21 +32,19 @@ public class View {
     private final Button buttonRight = new Button();
 
 
-    public View(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+    public View() {
         initView();
     }
 
-    public void initView() {
+    private void initView() {
         /* Инициализация главного окна */
-        Scene scene = new Scene(root, 600, 610);
-        primaryStage.setScene(scene);
-        primaryStage.setWidth(600);
-        primaryStage.setHeight(610);
-        primaryStage.show();
-        primaryStage.setTitle(Messages.MAIN_WINDOW);
-        primaryStage.setResizable(false);
-        primaryStage.getIcons().add(img);
+        Scene scene = new Scene(root);
+        setScene(scene);
+        setWidth(600);
+        setHeight(610);
+        setTitle(Messages.MAIN_WINDOW);
+        setResizable(false);
+        getIcons().add(img);
 
         /* Панель с картинкой */
         Rectangle rectangle = new Rectangle(img.getWidth(), img.getHeight());
@@ -63,9 +57,9 @@ public class View {
         root.setTop(imgBox);
 
         /* Панель с текстом */
-        textLabel.setStyle("-fx-font-size: 15.5;");
-        centralPane.setStyle("-fx-background-color: #DCDCDC; -fx-background-radius: 5px;" +
-                "-fx-font-family: Calibri; -fx-font-weight: bold;");
+        textLabel.setStyle("-fx-font-size: 13.5;");
+        centralPane.setStyle("-fx-background-color: #DCDCDC;" +
+                "-fx-background-radius: 5px; -fx-font-weight: bold;");
         centralPane.setMaxHeight(80);
         centralPane.setMaxWidth(480);
         centralPane.getChildren().add(textLabel);
@@ -93,11 +87,13 @@ public class View {
         buttonRight.setOnAction(e -> {
             controller.actionRightButton(buttonRight.getText(), inputText.getText());
         });
+
+        show();
     }
 
     public void initStartGame() {
         textLabel.setText(String.format(Messages.ENTER, 1));
-        inputText.setStyle("-fx-font-size: 14;");
+        inputText.setStyle("-fx-font-size: 13.25;");
         inputText.setMaxWidth(50);
 
         textAndInputBox.getChildren().addAll(textLabel, inputText);
@@ -107,7 +103,7 @@ public class View {
         centralPane.getChildren().add(textAndInputBox);
         textLabel.setAlignment(Pos.CENTER_LEFT);
         inputText.setAlignment(Pos.CENTER_RIGHT);
-        inputText.setAlignment(javafx.geometry.Pos.CENTER);
+        inputText.setAlignment(Pos.CENTER);
 
         bottomBox.getChildren().add(1, buttonCenter);
         buttonLeft.setText(Buttons.MANUAL);
@@ -145,8 +141,5 @@ public class View {
     }
     public TextField getInputText() {
         return inputText;
-    }
-    public Stage getPrimaryStage() {
-        return primaryStage;
     }
 }
