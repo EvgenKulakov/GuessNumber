@@ -1,28 +1,20 @@
 package game.model;
-
+/**
+ * сообщения и главный текст
+ */
 public class Messages {
 
-    /* titles */
-    public static final String MAIN_WINDOW = "Угадай число";
-    public static final String ERROR = "Ошибка";
-    public static final String VICTORY = "Ты угадал! Это число %s";
-    public static final String WRONG = "Неправильно";
-    public static final String YOU_LOSE = "Ты проиграл!";
-    public static final String YOU_WELCOME = "Пожалуйста!";
-    public static final String NOT_FUNNY = "Не смеши";
-
-    /* сообщения */
     public static final String EMPTY_STRING = "Введи ЧИСЛО, чтобы сделать ХОД!";
     public static final String CHANGE_NUMBER = "Ты уже пробовал число %s,\n введи другое если хочешь победить!";
     public static final String HINT = "Подсказка:\nЧетвёртая цифра ПЯТЬ!";
-    public static final String NUMBER_LESS = "Загаданное число МЕНЬШЕ!";
-    public static final String NUMBER_GREATER = "Загаданное число БОЛЬШЕ!";
+    public static final String HINT_FINAL = "Четвёртая цифра ПЯТЬ!";
+    public static final String LOW = "Загаданное число МЕНЬШЕ!";
+    public static final String HIGH = "Загаданное число БОЛЬШЕ!";
     public static final String ANSWER = "Правильный ответ был %s";
     public static final String NO_CLUE = "Нет игры - нет подсказки!";
     public static final String BYE = "До встречи в реальном мире!";
     public static final String NOT_KNOW = "Ничего ты не знал!";
 
-    /* texts */
     public static final String MANUAL = new StringBuilder()
             .append("Компьютер загадал рандомное число от 0 до 999,\n")
             .append("у вас всего 10 попыток, чтобы его отгадать.\n")

@@ -1,6 +1,5 @@
 package game.view;
 
-import game.model.Icons;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,27 +18,28 @@ public class ShowDialog extends Stage {
     private final HBox hBoxText = new HBox();
     private final HBox hBoxButton = new HBox();
 
-    private final Stage parent;
+    private final View parent;
     private final String title;
-    private final Label message;
+    private final ImageView typeIcon;
+    private final Label text;
     private final Button button;
     private final Pos posButton;
-    private final Image windowIcon;
-    private final ImageView typeIcon;
+    private final boolean bigWindow;
 
 
-    public ShowDialog(Stage parent, String title, String message, String icon) {
-        this(parent, title, message, "OK", Pos.BASELINE_RIGHT, icon);
+    public ShowDialog(View parent, String title, String typeIcon, String text, boolean bigWindow) {
+        this(parent, title, typeIcon, text, "OK", Pos.BASELINE_RIGHT, bigWindow);
     }
 
-    public ShowDialog(Stage parent, String title, String message, String buttonTxt, Pos posButton, String icon) {
+    public ShowDialog(View parent, String title, String typeIcon, String text,
+                             String buttonTxt, Pos posButton, boolean bigWindow) {
         this.parent = parent;
         this.title = title;
-        this.message = new Label(message);
+        this.typeIcon = new ImageView(new Image(getClass().getResourceAsStream(typeIcon)));
+        this.text = new Label(text);
         this.button = new Button(buttonTxt);
         this.posButton = posButton;
-        windowIcon = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
-        typeIcon = new ImageView(new Image(getClass().getResourceAsStream(icon)));
+        this.bigWindow = bigWindow;
         dialogRendering();
     }
 
@@ -47,17 +47,17 @@ public class ShowDialog extends Stage {
         setScene(scene);
         setTitle(title);
         setResizable(false);
-        getIcons().add(windowIcon);
+        getIcons().add(parent.getWindowIcon());
         initModality(Modality.APPLICATION_MODAL);
-        root.setMinWidth(350);
-//        root.setStyle("-fx-background-color: white;");
+        root.setMinWidth(bigWindow ? 360 : 320);
 
         typeIcon.setFitWidth(40);
         typeIcon.setFitHeight(40);
+        text.setStyle("-fx-font-weight: bold;");
         hBoxText.setAlignment(Pos.CENTER_LEFT);
         hBoxText.setSpacing(15);
         hBoxText.setPadding(new Insets(10, 10, 2, 10));
-        hBoxText.getChildren().addAll(typeIcon, message);
+        hBoxText.getChildren().addAll(typeIcon, text);
 
         button.setOnAction(event -> close());
         button.setMinWidth(50);
@@ -69,6 +69,12 @@ public class ShowDialog extends Stage {
         root.setCenter(vBoxMain);
 
         setOnShown(event -> {
+            /* выравнивание текста */
+            double alignment = text.getWidth() + ((hBoxText.getWidth() - text.getWidth()) / 2) - 65;
+            text.setMinWidth(alignment);
+            text.setAlignment(Pos.CENTER_RIGHT);
+
+            /* положение ShowDialog зависит от положения View */
             double positionX = parent.getX() + ((parent.getWidth() - this.getWidth()) / 2);
             double positionY = parent.getY() + 250 + ((167 - this.getHeight()) / 2);
             setX(positionX);

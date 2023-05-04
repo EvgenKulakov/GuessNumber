@@ -1,6 +1,6 @@
 package game.view;
 
-import game.Controller;
+import game.controller.Controller;
 import game.model.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -18,8 +18,8 @@ public class View extends Stage {
     private final BorderPane root = new BorderPane();
 
     private final HBox imgBox = new HBox();
-    private final Image img = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
-    private final ImageView imageView = new ImageView(img);
+    private final Image windowIcon = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
+    private final ImageView mainImg = new ImageView(windowIcon);
 
     private final StackPane centralPane = new StackPane();
     private final HBox textAndInputBox = new HBox();
@@ -42,16 +42,16 @@ public class View extends Stage {
         setScene(scene);
         setWidth(600);
         setHeight(610);
-        setTitle(Messages.MAIN_WINDOW);
+        setTitle(Titles.MAIN_WINDOW);
         setResizable(false);
-        getIcons().add(img);
+        getIcons().add(windowIcon);
 
         /* Панель с картинкой */
-        Rectangle rectangle = new Rectangle(img.getWidth(), img.getHeight());
+        Rectangle rectangle = new Rectangle(windowIcon.getWidth(), windowIcon.getHeight());
         rectangle.setArcWidth(5);
         rectangle.setArcHeight(5);
-        imageView.setClip(rectangle);
-        imgBox.getChildren().add(imageView);
+        mainImg.setClip(rectangle);
+        imgBox.getChildren().add(mainImg);
         imgBox.setAlignment(Pos.CENTER);
         imgBox.setTranslateY(5);
         root.setTop(imgBox);
@@ -130,6 +130,9 @@ public class View extends Stage {
     public void setController(Controller controller) {
         this.controller = controller;
     }
+    public Image getWindowIcon() {
+        return windowIcon;
+    }
     public Button getButtonRight() {
         return buttonRight;
     }
@@ -139,7 +142,7 @@ public class View extends Stage {
     public Label getTextLabel() {
         return textLabel;
     }
-    public TextField getInputText() {
-        return inputText;
+    public HBox getTextAndInputBox() {
+        return textAndInputBox;
     }
 }

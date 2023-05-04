@@ -1,12 +1,9 @@
-package game;
+package game.controller;
 
-import game.model.Buttons;
-import game.model.Icons;
-import game.model.Messages;
-import game.model.Model;
+import game.MainClass;
+import game.model.*;
 import game.view.View;
 import game.view.ShowDialog;
-import javafx.geometry.Pos;
 
 public class Controller {
     private final View view;
@@ -21,13 +18,13 @@ public class Controller {
     public void actionLeftButton(String buttonText) {
         switch (buttonText) {
             case Buttons.NO_GAME:
-                new ShowDialog(view, Buttons.NO_GAME, Messages.NO_CLUE, Icons.BLOCK);
+                DialogFactory.create(view, DialogType.NO_GAME);
                 break;
             case Buttons.MANUAL:
-                new ShowDialog(view, Buttons.MANUAL, Messages.MANUAL, Icons.MANUAL);
+                DialogFactory.create(view, DialogType.MANUAL);
                 break;
             case Buttons.THANKS:
-                new ShowDialog(view, Messages.YOU_WELCOME, Messages.BYE, Icons.THANKS);
+                DialogFactory.create(view, DialogType.YOU_WELCOME);
                 break;
         }
     }
@@ -39,7 +36,7 @@ public class Controller {
                 parseAndMove(inputText);
                 break;
             case Buttons.KNEW:
-                new ShowDialog(view, Messages.NOT_FUNNY, Messages.NOT_KNOW, Icons.FUNNY);
+                DialogFactory.create(view, DialogType.NOT_KNOW);
                 break;
             case Buttons.LETS_GAME:
             case Buttons.PLAY_MORE:
@@ -52,16 +49,14 @@ public class Controller {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
-            new ShowDialog(view, Messages.ERROR, Messages.EMPTY_STRING, Icons.ERROR);
+            DialogFactory.create(view, DialogType.EMPTY_STRING);
         }
     }
 
     private void nextMove(int useNumber) {
         /* число уже было? */
         if (model.getUseNumbers().contains(useNumber)) {
-            new ShowDialog(view, Messages.WRONG,
-                    String.format(Messages.CHANGE_NUMBER, useNumber),
-                    Icons.QUESTION);
+            DialogFactory.create(view, DialogType.CHANGE_NUMBER, useNumber);
             return;
         }
 
@@ -73,10 +68,10 @@ public class Controller {
 
         /* действия после хода */
         if (model.getSecretNumber() < useNumber) {
-            new ShowDialog(view, Messages.WRONG, Messages.NUMBER_LESS, Icons.LOW);
+            DialogFactory.create(view, DialogType.LOW);
         }
         if (model.getSecretNumber() > useNumber) {
-            new ShowDialog(view, Messages.WRONG, Messages.NUMBER_GREATER, Icons.HIGH);
+            DialogFactory.create(view, DialogType.HIGH);
         }
 
         view.getTextLabel().setText(String.format(Messages.ENTER, model.getMoveNumber()));
@@ -100,18 +95,14 @@ public class Controller {
     }
 
     public void gameOver() {
-        new ShowDialog(view, Messages.YOU_LOSE,
-                String.format(Messages.ANSWER, model.getSecretNumber()),
-                Buttons.REBOOT.toUpperCase(), Pos.CENTER, Icons.BLOCK);
+        DialogFactory.create(view, DialogType.GAME_OVER, model.getSecretNumber());
         repeatGame();
     }
 
     public void victory() {
-        new ShowDialog(view,
-                String.format(Messages.VICTORY, model.getSecretNumber()),
-                Messages.HINT, Icons.VICTORY);
-        view.getTextLabel().setText(Messages.HINT);
-        view.getInputText().setVisible(false);
+        DialogFactory.create(view, DialogType.VICTORY, model.getSecretNumber());
+        view.getTextLabel().setText(Messages.HINT_FINAL);
+        view.getTextAndInputBox().getChildren().remove(1);
         view.getButtonLeft().setText(Buttons.THANKS);
         view.getButtonRight().setText(Buttons.KNEW);
     }

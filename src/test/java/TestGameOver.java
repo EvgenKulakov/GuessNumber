@@ -1,4 +1,4 @@
-import game.Controller;
+import game.controller.Controller;
 import game.model.Model;
 import game.view.View;
 import javafx.application.Application;
