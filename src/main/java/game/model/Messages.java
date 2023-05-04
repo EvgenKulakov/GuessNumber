@@ -26,5 +26,10 @@ public class Messages {
             .append("Отгадаешь число с 10 попыток, получишь подсказку! ")
             .append("Начнём?").toString();
 
+    public static final String REBOOT = new StringBuilder()
+            .append("Будет сброшен прогресс игры\n")
+            .append("и компьютер загадает новое число.\n")
+            .append("Перезагрузить?").toString();
+
     public static final String ENTER = "Попытка №%s введи число";
 }

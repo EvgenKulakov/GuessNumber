@@ -16,7 +16,7 @@ public class ShowDialog extends Stage {
     private final Scene scene = new Scene(root);
     private final VBox vBoxMain = new VBox();
     private final HBox hBoxText = new HBox();
-    private final HBox hBoxButton = new HBox();
+    protected final HBox hBoxButton = new HBox();
 
     private final View parent;
     private final String title;
@@ -81,6 +81,8 @@ public class ShowDialog extends Stage {
             setY(positionY);
         });
 
-        showAndWait();
+        if (getClass() == ShowDialog.class) {
+            showAndWait();
+        }
     }
 }

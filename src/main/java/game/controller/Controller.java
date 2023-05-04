@@ -29,6 +29,11 @@ public class Controller {
         }
     }
 
+    /* центральная кнопка */
+    public void actionCenterButton() {
+        DialogFactory.createReboot(this, view);
+    }
+
     /* правая кнопка */
     public void actionRightButton(String buttonText, String inputText) {
         switch (buttonText) {
@@ -103,6 +108,9 @@ public class Controller {
         DialogFactory.create(view, DialogType.VICTORY, model.getSecretNumber());
         view.getTextLabel().setText(Messages.HINT_FINAL);
         view.getTextAndInputBox().getChildren().remove(1);
+        view.getBottomBox().getChildren().remove(1);
+        view.getButtonLeft().setPrefWidth(234);
+        view.getButtonRight().setPrefWidth(234);
         view.getButtonLeft().setText(Buttons.THANKS);
         view.getButtonRight().setText(Buttons.KNEW);
     }

@@ -8,6 +8,7 @@ public class Titles {
     public static final String NO_GAME = "Пожалуй, не стоит";
     public static final String MANUAL = "Инструкция";
     public static final String ERROR = "Ошибка";
+    public static final String REBOOT = "Перезагрузка";
     public static final String VICTORY = "Ты угадал! Это число %s";
     public static final String WRONG = "Неправильно";
     public static final String YOU_LOSE = "Ты проиграл!";

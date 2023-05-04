@@ -1,6 +1,7 @@
 package game.controller;
 
 import game.model.*;
+import game.view.RebootDialog;
 import game.view.ShowDialog;
 import game.view.View;
 import javafx.geometry.Pos;
@@ -53,5 +54,10 @@ public class DialogFactory {
                 new ShowDialog(parent, dynamicText, Icons.VICTORY, Messages.HINT, true);
                 break;
         }
+    }
+
+    /* RebootDialog */
+    public static void createReboot(Controller controller, View parent) {
+        new RebootDialog(controller, parent, Titles.REBOOT, Icons.REBOOT, Messages.REBOOT, true);
     }
 }

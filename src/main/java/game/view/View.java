@@ -3,6 +3,8 @@ package game.view;
 import game.controller.Controller;
 import game.model.*;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class View extends Stage {
     private Controller controller;
@@ -70,8 +73,8 @@ public class View extends Stage {
                 ? Buttons.PLAY_MORE
                 : Buttons.LETS_GAME;
         buttonRight.setText(buttonRightText);
-        buttonLeft.setPrefSize(234, 50);
-        buttonRight.setPrefSize(234, 50);
+        buttonLeft.setPrefSize(235, 50);
+        buttonRight.setPrefSize(235, 50);
 
         /* Панель с кнопками */
         bottomBox.getChildren().addAll(buttonLeft, buttonRight);
@@ -110,12 +113,13 @@ public class View extends Stage {
         buttonRight.setText(Buttons.MOVE);
         buttonLeft.setPrefSize(100, 50);
         buttonCenter.setPrefSize(100, 50);
-        buttonRight.setPrefSize(259, 50);
+        buttonRight.setPrefSize(260, 50);
+
+        buttonCenter.setOnAction(event -> controller.actionCenterButton());
+        inputText.setOnAction(event -> controller.parseAndMove(inputText.getText()));
 
         /* фильтр ввода цифр: можно вводить только цифры и не более трех */
         inputText.textProperty().addListener(this::inputFilter);
-
-        inputText.setOnAction(event -> controller.parseAndMove(inputText.getText()));
     }
 
     private void inputFilter(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -132,6 +136,9 @@ public class View extends Stage {
     }
     public Image getWindowIcon() {
         return windowIcon;
+    }
+    public HBox getBottomBox() {
+        return bottomBox;
     }
     public Button getButtonRight() {
         return buttonRight;
