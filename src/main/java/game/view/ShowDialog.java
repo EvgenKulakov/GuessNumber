@@ -80,9 +80,5 @@ public class ShowDialog extends Stage {
             setX(positionX);
             setY(positionY);
         });
-
-        if (getClass() == ShowDialog.class) {
-            showAndWait();
-        }
     }
 }

@@ -8,6 +8,7 @@ import game.view.ShowDialog;
 public class Controller {
     private final View view;
     private final Model model;
+    private int useNumber;
 
     public Controller(View view, Model model) {
         this.view = view;
@@ -18,20 +19,20 @@ public class Controller {
     public void actionLeftButton(String buttonText) {
         switch (buttonText) {
             case Buttons.NO_GAME:
-                DialogFactory.create(view, DialogType.NO_GAME);
+                DialogFactory.create(DialogType.NO_GAME);
                 break;
             case Buttons.MANUAL:
-                DialogFactory.create(view, DialogType.MANUAL);
+                DialogFactory.create(DialogType.MANUAL);
                 break;
             case Buttons.THANKS:
-                DialogFactory.create(view, DialogType.YOU_WELCOME);
+                DialogFactory.create(DialogType.YOU_WELCOME);
                 break;
         }
     }
 
     /* центральная кнопка */
     public void actionCenterButton() {
-        DialogFactory.createReboot(this, view);
+        DialogFactory.create(DialogType.REBOOT);
     }
 
     /* правая кнопка */
@@ -41,7 +42,7 @@ public class Controller {
                 parseAndMove(inputText);
                 break;
             case Buttons.KNEW:
-                DialogFactory.create(view, DialogType.NOT_KNOW);
+                DialogFactory.create(DialogType.NOT_KNOW);
                 break;
             case Buttons.LETS_GAME:
             case Buttons.PLAY_MORE:
@@ -54,14 +55,16 @@ public class Controller {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
-            DialogFactory.create(view, DialogType.EMPTY_STRING);
+            DialogFactory.create(DialogType.EMPTY_STRING);
         }
     }
 
     private void nextMove(int useNumber) {
+        this.useNumber = useNumber;
+
         /* число уже было? */
         if (model.getUseNumbers().contains(useNumber)) {
-            DialogFactory.create(view, DialogType.CHANGE_NUMBER, useNumber);
+            DialogFactory.create(DialogType.CHANGE_NUMBER);
             return;
         }
 
@@ -69,21 +72,21 @@ public class Controller {
         model.incrementMoveNumber();
 
         /* проверка окончания игры */
-        if (isGameOver(useNumber)) return;
+        if (isGameOver()) return;
 
         /* действия после хода */
         if (model.getSecretNumber() < useNumber) {
-            DialogFactory.create(view, DialogType.LOW);
+            DialogFactory.create(DialogType.LOW);
         }
         if (model.getSecretNumber() > useNumber) {
-            DialogFactory.create(view, DialogType.HIGH);
+            DialogFactory.create(DialogType.HIGH);
         }
 
         view.getTextLabel().setText(String.format(Messages.ENTER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
 
-    private boolean isGameOver(int useNumber) {
+    private boolean isGameOver() {
         boolean end = false;
 
         if (model.getMoveNumber() > 10 && model.getSecretNumber() != useNumber) {
@@ -100,17 +103,17 @@ public class Controller {
     }
 
     public void gameOver() {
-        DialogFactory.create(view, DialogType.GAME_OVER, model.getSecretNumber());
+        DialogFactory.create(DialogType.GAME_OVER);
         repeatGame();
     }
 
     public void victory() {
-        DialogFactory.create(view, DialogType.VICTORY, model.getSecretNumber());
+        DialogFactory.create(DialogType.VICTORY);
         view.getTextLabel().setText(Messages.HINT_FINAL);
         view.getTextAndInputBox().getChildren().remove(1);
         view.getBottomBox().getChildren().remove(1);
-        view.getButtonLeft().setPrefWidth(234);
-        view.getButtonRight().setPrefWidth(234);
+        view.getButtonLeft().setPrefWidth(235);
+        view.getButtonRight().setPrefWidth(235);
         view.getButtonLeft().setText(Buttons.THANKS);
         view.getButtonRight().setText(Buttons.KNEW);
     }
@@ -119,5 +122,15 @@ public class Controller {
         Model.notFirstGame();
         view.close();
         MainClass.startWindow();
+    }
+
+    public View getView() {
+        return view;
+    }
+    public Model getModel() {
+        return model;
+    }
+    public int getUseNumber() {
+        return useNumber;
     }
 }

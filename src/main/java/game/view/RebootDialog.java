@@ -24,6 +24,5 @@ public class RebootDialog extends ShowDialog {
         });
         hBoxButton.getChildren().add(0, yes);
         hBoxButton.setSpacing(5);
-        showAndWait();
     }
 }

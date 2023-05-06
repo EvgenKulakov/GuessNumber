@@ -11,6 +11,7 @@ public enum DialogType {
     LOW,
     HIGH,
     CHANGE_NUMBER,
+    REBOOT,
     GAME_OVER,
     VICTORY;
 }
