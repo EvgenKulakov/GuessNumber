@@ -1,4 +1,5 @@
 import game.controller.Controller;
+import game.controller.DialogFactory;
 import game.model.Model;
 import game.view.View;
 import javafx.application.Application;
@@ -16,6 +17,7 @@ public class TestGameOver extends Application {
         Model model = new Model();
         Controller controller = new Controller(view, model);
         view.setController(controller);
+        DialogFactory.setController(controller);
 
         view.initStartGame();
         controller.gameOver();

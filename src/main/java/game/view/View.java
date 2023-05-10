@@ -3,8 +3,6 @@ package game.view;
 import game.controller.Controller;
 import game.model.*;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class View extends Stage {
     private Controller controller;
@@ -29,7 +26,7 @@ public class View extends Stage {
     private final Label textLabel = new Label(Messages.START_TEXT);
     private final TextField inputText = new TextField();
 
-    private final HBox bottomBox = new HBox();
+    private final HBox mainBottomBox = new HBox();
     private final Button buttonLeft = new Button(Buttons.NO_GAME);
     private final Button buttonCenter = new Button(Buttons.REBOOT);
     private final Button buttonRight = new Button();
@@ -44,7 +41,7 @@ public class View extends Stage {
         Scene scene = new Scene(root);
         setScene(scene);
         setWidth(600);
-        setHeight(610);
+        setHeight(600);
         setTitle(Titles.MAIN_WINDOW);
         setResizable(false);
         getIcons().add(windowIcon);
@@ -65,6 +62,7 @@ public class View extends Stage {
                 "-fx-background-radius: 5px; -fx-font-weight: bold;");
         centralPane.setMaxHeight(80);
         centralPane.setMaxWidth(480);
+        centralPane.setPadding(new Insets(10));
         centralPane.getChildren().add(textLabel);
         root.setCenter(centralPane);
 
@@ -77,12 +75,12 @@ public class View extends Stage {
         buttonRight.setPrefSize(235, 50);
 
         /* Панель с кнопками */
-        bottomBox.getChildren().addAll(buttonLeft, buttonRight);
-        bottomBox.setPadding(new Insets(10));
-        bottomBox.setSpacing(10);
-        bottomBox.setAlignment(Pos.CENTER);
-        bottomBox.setTranslateY(-15);
-        root.setBottom(bottomBox);
+        mainBottomBox.getChildren().addAll(buttonLeft, buttonRight);
+        mainBottomBox.setPadding(new Insets(10));
+        mainBottomBox.setSpacing(10);
+        mainBottomBox.setAlignment(Pos.CENTER);
+        mainBottomBox.setTranslateY(-15);
+        root.setBottom(mainBottomBox);
 
         /* слушатели для кнопок */
         buttonLeft.setOnAction(e -> controller.actionLeftButton(buttonLeft.getText()));
@@ -108,12 +106,23 @@ public class View extends Stage {
         inputText.setAlignment(Pos.CENTER_RIGHT);
         inputText.setAlignment(Pos.CENTER);
 
-        bottomBox.getChildren().add(1, buttonCenter);
+        mainBottomBox.getChildren().add(1, buttonCenter);
+        mainBottomBox.setSpacing(10);
         buttonLeft.setText(Buttons.MANUAL);
         buttonRight.setText(Buttons.MOVE);
-        buttonLeft.setPrefSize(100, 50);
-        buttonCenter.setPrefSize(100, 50);
-        buttonRight.setPrefSize(260, 50);
+        buttonLeft.setPrefSize(115, 50);
+        buttonCenter.setPrefSize(115, 50);
+        buttonRight.setPrefSize(230, 50);
+
+        ImageView leftIcon = new ImageView(new Image(Icons.MANUAL));
+        leftIcon.setFitWidth(20);
+        leftIcon.setFitHeight(20);
+        buttonLeft.setGraphic(leftIcon);
+
+        ImageView centerIcon = new ImageView(new Image(Icons.REBOOT));
+        centerIcon.setFitWidth(20);
+        centerIcon.setFitHeight(20);
+        buttonCenter.setGraphic(centerIcon);
 
         buttonCenter.setOnAction(event -> controller.actionCenterButton());
         inputText.setOnAction(event -> controller.parseAndMove(inputText.getText()));
@@ -131,25 +140,24 @@ public class View extends Stage {
         }
     }
 
+    public void victoryRendering() {
+        textLabel.setText(Messages.HINT_FINAL);
+        textAndInputBox.getChildren().remove(inputText);
+        mainBottomBox.getChildren().remove(buttonCenter);
+        buttonLeft.setGraphic(null);
+        buttonLeft.setPrefWidth(235);
+        buttonRight.setPrefWidth(235);
+        buttonLeft.setText(Buttons.THANKS);
+        buttonRight.setText(Buttons.KNEW);
+    }
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
     public Image getWindowIcon() {
         return windowIcon;
     }
-    public HBox getBottomBox() {
-        return bottomBox;
-    }
-    public Button getButtonRight() {
-        return buttonRight;
-    }
-    public Button getButtonLeft() {
-        return buttonLeft;
-    }
     public Label getTextLabel() {
         return textLabel;
-    }
-    public HBox getTextAndInputBox() {
-        return textAndInputBox;
     }
 }

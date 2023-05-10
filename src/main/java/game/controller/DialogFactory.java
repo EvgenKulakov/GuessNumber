@@ -3,7 +3,6 @@ package game.controller;
 import game.model.*;
 import game.view.RebootDialog;
 import game.view.ShowDialog;
-import game.view.View;
 import javafx.geometry.Pos;
 
 public class DialogFactory {

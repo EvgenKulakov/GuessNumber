@@ -3,7 +3,6 @@ package game.controller;
 import game.MainClass;
 import game.model.*;
 import game.view.View;
-import game.view.ShowDialog;
 
 public class Controller {
     private final View view;
@@ -109,13 +108,7 @@ public class Controller {
 
     public void victory() {
         DialogFactory.create(DialogType.VICTORY);
-        view.getTextLabel().setText(Messages.HINT_FINAL);
-        view.getTextAndInputBox().getChildren().remove(1);
-        view.getBottomBox().getChildren().remove(1);
-        view.getButtonLeft().setPrefWidth(235);
-        view.getButtonRight().setPrefWidth(235);
-        view.getButtonLeft().setText(Buttons.THANKS);
-        view.getButtonRight().setText(Buttons.KNEW);
+        view.victoryRendering();
     }
 
     public void repeatGame() {
