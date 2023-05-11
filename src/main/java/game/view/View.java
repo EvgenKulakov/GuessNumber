@@ -36,6 +36,12 @@ public class View extends Stage {
         initView();
     }
 
+    public View(double x, double y) {
+        setX(x);
+        setY(y);
+        initView();
+    }
+
     private void initView() {
         /* Инициализация главного окна */
         Scene scene = new Scene(root);

@@ -1,6 +1,7 @@
 package game.view;
 
 import game.controller.Controller;
+import game.model.DialogSize;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 
@@ -8,8 +9,8 @@ public class RebootDialog extends ShowDialog {
     private final Controller controller;
 
     public RebootDialog(Controller controller, View parent, String title,
-                        String typeIcon, String text, boolean bigWindow) {
-        super(parent, title, typeIcon, text, "НЕТ", Pos.BASELINE_RIGHT,  bigWindow);
+                        String typeIcon, String text, DialogSize dialogSize) {
+        super(parent, title, typeIcon, text, "НЕТ", Pos.BASELINE_RIGHT,  dialogSize);
         this.controller = controller;
         rebootRendering();
     }

@@ -113,8 +113,10 @@ public class Controller {
 
     public void repeatGame() {
         Model.notFirstGame();
+        double pastX = view.getX();
+        double pastY = view.getY();
         view.close();
-        MainClass.startWindow();
+        MainClass.startWindow(new View(pastX, pastY));
     }
 
     public View getView() {

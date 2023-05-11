@@ -14,51 +14,51 @@ public class DialogFactory {
         switch (type) {
             case NO_GAME:
                 new ShowDialog(controller.getView(),
-                        Titles.NO_GAME, Icons.BLOCK, Messages.NO_CLUE, false)
+                        Titles.NO_GAME, Icons.BLOCK, Messages.NO_CLUE, DialogSize.ONE_SIZE)
                         .showAndWait(); break;
             case MANUAL:
                 new ShowDialog(controller.getView(),
-                        Titles.MANUAL, Icons.MANUAL, Messages.MANUAL, true)
+                        Titles.MANUAL, Icons.MANUAL, Messages.MANUAL, DialogSize.FOUR_SIZE)
                         .showAndWait(); break;
             case YOU_WELCOME:
                 new ShowDialog(controller.getView(),
-                        Titles.YOU_WELCOME, Icons.THANKS, Messages.BYE, false)
+                        Titles.YOU_WELCOME, Icons.THANKS, Messages.BYE, DialogSize.ONE_SIZE)
                         .showAndWait(); break;
             case NOT_KNOW:
                 new ShowDialog(controller.getView(),
-                        Titles.NOT_FUNNY, Icons.FUNNY, Messages.NOT_KNOW, false)
+                        Titles.NOT_FUNNY, Icons.FUNNY, Messages.NOT_KNOW, DialogSize.ONE_SIZE)
                         .showAndWait(); break;
             case EMPTY_STRING:
                 new ShowDialog(controller.getView(),
-                        Titles.ERROR, Icons.ERROR, Messages.EMPTY_STRING, true)
+                        Titles.ERROR, Icons.ERROR, Messages.EMPTY_STRING, DialogSize.TWO_SIZE)
                         .showAndWait(); break;
             case LOW:
                 new ShowDialog(controller.getView(),
-                        Titles.WRONG, Icons.LOW, Messages.LOW, false)
+                        Titles.WRONG, Icons.LOW, Messages.LOW, DialogSize.ONE_SIZE)
                         .showAndWait(); break;
             case HIGH:
                 new ShowDialog(controller.getView(),
-                        Titles.WRONG, Icons.HIGH, Messages.HIGH, false)
+                        Titles.WRONG, Icons.HIGH, Messages.HIGH, DialogSize.ONE_SIZE)
                         .showAndWait(); break;
             case CHANGE_NUMBER:
                 dynamicText = String.format(Messages.CHANGE_NUMBER, controller.getUseNumber());
                 new ShowDialog(controller.getView(),
-                        Titles.WRONG, Icons.QUESTION, dynamicText, true)
+                        Titles.WRONG, Icons.QUESTION, dynamicText, DialogSize.TWO_SIZE)
                         .showAndWait(); break;
             case GAME_OVER:
                 dynamicText = String.format(Messages.ANSWER, controller.getModel().getSecretNumber());
                 new ShowDialog(controller.getView(),
                         Titles.YOU_LOSE, Icons.BLOCK, dynamicText,
-                        Buttons.REBOOT.toUpperCase(), Pos.CENTER, false)
+                        Buttons.REBOOT.toUpperCase(), Pos.CENTER, DialogSize.ONE_SIZE)
                         .showAndWait(); break;
             case VICTORY:
                 dynamicText = String.format(Titles.VICTORY, controller.getModel().getSecretNumber());
                 new ShowDialog(controller.getView(),
-                        dynamicText, Icons.VICTORY, Messages.HINT, true)
+                        dynamicText, Icons.VICTORY, Messages.HINT, DialogSize.TWO_SIZE)
                         .showAndWait(); break;
             case REBOOT:
                 new RebootDialog(controller, controller.getView(),
-                        Titles.REBOOT, Icons.REBOOT, Messages.REBOOT, true)
+                        Titles.REBOOT, Icons.REBOOT, Messages.REBOOT, DialogSize.THREE_SIZE)
                         .showAndWait(); break;
         }
     }
