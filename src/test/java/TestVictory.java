@@ -19,7 +19,7 @@ public class TestVictory extends Application {
         view.setController(controller);
         DialogFactory.setController(controller);
 
-        view.initStartGame();
+        view.renderStartGame();
         controller.victory();
     }
 

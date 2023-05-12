@@ -37,6 +37,9 @@
                                 <mainClass>game.MainClass</mainClass>
                                 <preCp>anything</preCp>
                             </classPath>
+                            <singleInstance>
+                                <mutexName>GuessNumber</mutexName>
+                            </singleInstance>
                             <jre>
                                 <path>C:\Users\Stvolya\.jdks\liberica-17.0.6</path>
                                 <minVersion>1.8.0</minVersion>

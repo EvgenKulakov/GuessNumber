@@ -2,13 +2,13 @@ package game.view;
 
 import game.controller.Controller;
 import game.model.*;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -18,15 +18,15 @@ public class View extends Stage {
     private final BorderPane root = new BorderPane();
 
     private final HBox imgBox = new HBox();
-    private final Image windowIcon = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
-    private final ImageView mainImg = new ImageView(windowIcon);
+    private final Image icon = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
+    private final ImageView img = new ImageView(icon);
 
     private final StackPane centralPane = new StackPane();
-    private final HBox textAndInputBox = new HBox();
-    private final Label textLabel = new Label(Messages.START_TEXT);
-    private final TextField inputText = new TextField();
+    private final HBox centralBox = new HBox();
+    private final Label text = new Label(Messages.START_TEXT);
+    private final TextField input = new TextField();
 
-    private final HBox mainBottomBox = new HBox();
+    private final HBox buttonBox = new HBox();
     private final Button buttonLeft = new Button(Buttons.NO_GAME);
     private final Button buttonCenter = new Button(Buttons.REBOOT);
     private final Button buttonRight = new Button();
@@ -34,92 +34,116 @@ public class View extends Stage {
 
     public View() {
         initView();
+        addListeners();
     }
 
     public View(double x, double y) {
         setX(x);
         setY(y);
         initView();
+        addListeners();
     }
 
     private void initView() {
-        /* Инициализация главного окна */
+        /* Инициализация всего окна */
         Scene scene = new Scene(root);
         setScene(scene);
         setWidth(600);
         setHeight(600);
+        show();
         setTitle(Titles.MAIN_WINDOW);
         setResizable(false);
-        getIcons().add(windowIcon);
+        getIcons().add(icon);
 
         /* Панель с картинкой */
-        Rectangle rectangle = new Rectangle(windowIcon.getWidth(), windowIcon.getHeight());
+        Rectangle rectangle = new Rectangle(icon.getWidth(), icon.getHeight());
         rectangle.setArcWidth(5);
         rectangle.setArcHeight(5);
-        mainImg.setClip(rectangle);
-        imgBox.getChildren().add(mainImg);
+        img.setClip(rectangle);
         imgBox.setAlignment(Pos.CENTER);
         imgBox.setTranslateY(5);
+        imgBox.getChildren().add(img);
         root.setTop(imgBox);
 
         /* Панель с текстом */
-        textLabel.setStyle("-fx-font-size: 13.5;");
-        centralPane.setStyle("-fx-background-color: #DCDCDC;" +
-                "-fx-background-radius: 5px; -fx-font-weight: bold;");
+        text.setStyle(Styles.SIZE_13_50);
+        centralPane.setStyle(Styles.BACKGROUND_GREY + Styles.RADIUS_5PX + Styles.FONT_BOLD);
         centralPane.setMaxHeight(80);
         centralPane.setMaxWidth(480);
         centralPane.setPadding(new Insets(10));
-        centralPane.getChildren().add(textLabel);
+        centralPane.getChildren().add(text);
         root.setCenter(centralPane);
 
-        /* Кнопки */
+        /* Панель с кнопками */
         String buttonRightText = Model.isNotFirstGame()
                 ? Buttons.PLAY_MORE
                 : Buttons.LETS_GAME;
         buttonRight.setText(buttonRightText);
         buttonLeft.setPrefSize(235, 50);
         buttonRight.setPrefSize(235, 50);
-
-        /* Панель с кнопками */
-        mainBottomBox.getChildren().addAll(buttonLeft, buttonRight);
-        mainBottomBox.setPadding(new Insets(10));
-        mainBottomBox.setSpacing(10);
-        mainBottomBox.setAlignment(Pos.CENTER);
-        mainBottomBox.setTranslateY(-15);
-        root.setBottom(mainBottomBox);
-
-        /* слушатели для кнопок */
-        buttonLeft.setOnAction(e -> controller.actionLeftButton(buttonLeft.getText()));
-
-        buttonRight.setOnAction(e -> {
-            controller.actionRightButton(buttonRight.getText(), inputText.getText());
-        });
-
-        show();
+        buttonBox.getChildren().addAll(buttonLeft, buttonRight);
+        buttonBox.setPadding(new Insets(10));
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setTranslateY(-15);
+        root.setBottom(buttonBox);
     }
 
-    public void initStartGame() {
-        textLabel.setText(String.format(Messages.ENTER, 1));
-        inputText.setStyle("-fx-font-size: 13.25;");
-        inputText.setMaxWidth(50);
+    private void addListeners() {
+        final String MOUSE_LEFT = "PRIMARY";
 
-        textAndInputBox.getChildren().addAll(textLabel, inputText);
-        textAndInputBox.setAlignment(Pos.CENTER);
-        textAndInputBox.setSpacing(30);
+        buttonLeft.setOnMouseClicked(event -> {
+            if (event.getButton().name().equals(MOUSE_LEFT)) {
+                controller.actionLeftButton(buttonLeft.getText());
+            }
+        });
 
-        centralPane.getChildren().add(textAndInputBox);
-        textLabel.setAlignment(Pos.CENTER_LEFT);
-        inputText.setAlignment(Pos.CENTER_RIGHT);
-        inputText.setAlignment(Pos.CENTER);
+        buttonLeft.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                controller.actionLeftButton(buttonLeft.getText());
+            }
+        });
 
-        mainBottomBox.getChildren().add(1, buttonCenter);
-        mainBottomBox.setSpacing(10);
-        buttonLeft.setText(Buttons.MANUAL);
-        buttonRight.setText(Buttons.MOVE);
-        buttonLeft.setPrefSize(115, 50);
-        buttonCenter.setPrefSize(115, 50);
-        buttonRight.setPrefSize(230, 50);
+        buttonCenter.setOnMouseClicked(event -> {
+            if (event.getButton().name().equals(MOUSE_LEFT)) {
+                controller.actionCenterButton();
+            }
+        });
 
+        buttonCenter.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                controller.actionCenterButton();
+            }
+        });
+
+        buttonRight.setOnMouseClicked(event -> {
+            if (event.getButton().name().equals(MOUSE_LEFT)) {
+                controller.actionRightButton(buttonRight.getText(), input.getText());
+            }
+        });
+
+        buttonRight.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                controller.actionRightButton(buttonRight.getText(), input.getText());
+            }
+        });
+
+        input.setOnAction(event -> controller.parseAndMove(input.getText()));
+    }
+
+    public void renderStartGame() {
+        /* центральная панель */
+        text.setText(String.format(Messages.ENTER, controller.getModel().getMoveNumber()));
+        text.setAlignment(Pos.CENTER_LEFT);
+        input.setStyle(Styles.SIZE_13_25);
+        input.setMaxWidth(50);
+        input.setAlignment(Pos.CENTER);
+        centralBox.setAlignment(Pos.CENTER);
+        centralBox.setSpacing(30);
+        centralBox.getChildren().addAll(text, input);
+        centralPane.getChildren().add(centralBox);
+
+        /* иконки кнопок */
         ImageView leftIcon = new ImageView(new Image(Icons.MANUAL));
         leftIcon.setFitWidth(20);
         leftIcon.setFitHeight(20);
@@ -130,26 +154,30 @@ public class View extends Stage {
         centerIcon.setFitHeight(20);
         buttonCenter.setGraphic(centerIcon);
 
-        buttonCenter.setOnAction(event -> controller.actionCenterButton());
-        inputText.setOnAction(event -> controller.parseAndMove(inputText.getText()));
+        /* кнопки */
+        buttonLeft.setText(Buttons.MANUAL);
+        buttonRight.setText(Buttons.MOVE);
+        buttonLeft.setPrefSize(115, 50);
+        buttonCenter.setPrefSize(115, 50);
+        buttonRight.setPrefSize(230, 50);
+        buttonBox.setSpacing(10);
+        buttonBox.getChildren().add(1, buttonCenter);
 
-        /* фильтр ввода цифр: можно вводить только цифры и не более трех */
-        inputText.textProperty().addListener(this::inputFilter);
-    }
-
-    private void inputFilter(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        if (!newValue.matches("\\d*")) {
-            inputText.setText(newValue.replaceAll("[^\\d]", ""));
-        }
-        if (newValue.length() > 3) {
-            inputText.setText(oldValue);
-        }
+        /* фильтр: можно вводить только 3 цифры */
+        input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                input.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            if (newValue.length() > 3) {
+                input.setText(oldValue);
+            }
+        });
     }
 
     public void victoryRendering() {
-        textLabel.setText(Messages.HINT_FINAL);
-        textAndInputBox.getChildren().remove(inputText);
-        mainBottomBox.getChildren().remove(buttonCenter);
+        text.setText(Messages.HINT_FINAL);
+        centralBox.getChildren().remove(input);
+        buttonBox.getChildren().remove(buttonCenter);
         buttonLeft.setGraphic(null);
         buttonLeft.setPrefWidth(235);
         buttonRight.setPrefWidth(235);
@@ -160,10 +188,10 @@ public class View extends Stage {
     public void setController(Controller controller) {
         this.controller = controller;
     }
-    public Image getWindowIcon() {
-        return windowIcon;
+    public Image getIcon() {
+        return icon;
     }
-    public Label getTextLabel() {
-        return textLabel;
+    public Label getText() {
+        return text;
     }
 }

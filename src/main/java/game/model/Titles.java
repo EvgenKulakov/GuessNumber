@@ -1,6 +1,6 @@
 package game.model;
 /**
- * Titles для ShowDialog
+ * Titles для View и ShowDialog
  */
 public class Titles {
 

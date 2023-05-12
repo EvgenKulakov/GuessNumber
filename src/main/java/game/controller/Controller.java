@@ -45,7 +45,7 @@ public class Controller {
                 break;
             case Buttons.LETS_GAME:
             case Buttons.PLAY_MORE:
-                view.initStartGame();
+                view.renderStartGame();
                 break;
         }
     }
@@ -61,19 +61,15 @@ public class Controller {
     private void nextMove(int useNumber) {
         this.useNumber = useNumber;
 
-        /* число уже было? */
         if (model.getUseNumbers().contains(useNumber)) {
             DialogFactory.create(DialogType.CHANGE_NUMBER);
             return;
         }
 
-        /* увеличение количества попыток */
         model.incrementMoveNumber();
 
-        /* проверка окончания игры */
         if (isGameOver()) return;
 
-        /* действия после хода */
         if (model.getSecretNumber() < useNumber) {
             DialogFactory.create(DialogType.LOW);
         }
@@ -81,7 +77,7 @@ public class Controller {
             DialogFactory.create(DialogType.HIGH);
         }
 
-        view.getTextLabel().setText(String.format(Messages.ENTER, model.getMoveNumber()));
+        view.getText().setText(String.format(Messages.ENTER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
 

@@ -1,6 +1,7 @@
 package game.view;
 
 import game.model.DialogSize;
+import game.model.Styles;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -51,19 +53,26 @@ public class ShowDialog extends Stage {
         setY(parent.getY() + dialogSize.getPlusY());
         setTitle(title);
         setResizable(false);
-        getIcons().add(parent.getWindowIcon());
+        getIcons().add(parent.getIcon());
         initModality(Modality.APPLICATION_MODAL);
         root.setMinWidth(dialogSize.getMinWindow());
 
         typeIcon.setFitWidth(40);
         typeIcon.setFitHeight(40);
-        text.setStyle("-fx-font-weight: bold;");
+        text.setStyle(Styles.FONT_BOLD);
         hBoxText.setAlignment(Pos.CENTER_LEFT);
         hBoxText.setSpacing(15);
         hBoxText.setPadding(new Insets(10, 10, 2, 10));
         hBoxText.getChildren().addAll(typeIcon, text);
 
-        button.setOnAction(event -> close());
+        button.setOnMouseClicked(event -> {
+            if (event.getButton().name().equals("PRIMARY")) close();
+        });
+
+        button.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) close();
+        });
+
         button.setMinWidth(50);
         hBoxButton.setPadding(new Insets(0, 10, 8, 10));
         hBoxButton.setAlignment(posButton);
@@ -77,7 +86,6 @@ public class ShowDialog extends Stage {
             double alignment = text.getWidth() + ((hBoxText.getWidth() - text.getWidth()) / 2) - 65;
             text.setMinWidth(alignment);
             text.setAlignment(Pos.CENTER_RIGHT);
-            System.out.println(parent.getX() + " " + parent.getY());
         });
     }
 }
