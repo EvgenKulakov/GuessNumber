@@ -13,13 +13,18 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class View extends Stage {
+public class View {
+    private Model model;
     private Controller controller;
+
+    private final Stage stage;
     private final BorderPane root = new BorderPane();
+    private final Scene scene = new Scene(root);
 
     private final HBox imgBox = new HBox();
     private final Image icon = new Image(getClass().getResourceAsStream(Icons.MAIN_IMAGINE));
     private final ImageView img = new ImageView(icon);
+    private final Rectangle rectangle = new Rectangle(icon.getWidth(), icon.getHeight());
 
     private final StackPane centralPane = new StackPane();
     private final HBox centralBox = new HBox();
@@ -32,31 +37,34 @@ public class View extends Stage {
     private final Button buttonRight = new Button();
 
 
-    public View() {
+    public View(Stage stage, Model model) {
+        this.stage = stage;
+        this.model = model;
         initView();
         addListeners();
     }
 
-    public View(double x, double y) {
-        setX(x);
-        setY(y);
+    public View(Stage stage, double x, double y, Model model, Controller controller) {
+        this.stage = stage;
+        stage.setX(x);
+        stage.setY(y);
+        this.model = model;
+        this.controller = controller;
         initView();
         addListeners();
     }
 
     private void initView() {
         /* Инициализация всего окна */
-        Scene scene = new Scene(root);
-        setScene(scene);
-        setWidth(600);
-        setHeight(600);
-        show();
-        setTitle(Titles.MAIN_WINDOW);
-        setResizable(false);
-        getIcons().add(icon);
+        stage.setScene(scene);
+        stage.setWidth(600);
+        stage.setHeight(600);
+        stage.show();
+        stage.setTitle(Titles.MAIN_WINDOW);
+        stage.setResizable(false);
+        stage.getIcons().add(icon);
 
         /* Панель с картинкой */
-        Rectangle rectangle = new Rectangle(icon.getWidth(), icon.getHeight());
         rectangle.setArcWidth(5);
         rectangle.setArcHeight(5);
         img.setClip(rectangle);
@@ -75,10 +83,7 @@ public class View extends Stage {
         root.setCenter(centralPane);
 
         /* Панель с кнопками */
-        String buttonRightText = Model.isNotFirstGame()
-                ? Buttons.PLAY_MORE
-                : Buttons.LETS_GAME;
-        buttonRight.setText(buttonRightText);
+        buttonRight.setText(model.isNotFirstGame() ? Buttons.PLAY_MORE : Buttons.LETS_GAME);
         buttonLeft.setPrefSize(235, 50);
         buttonRight.setPrefSize(235, 50);
         buttonBox.getChildren().addAll(buttonLeft, buttonRight);
@@ -90,10 +95,8 @@ public class View extends Stage {
     }
 
     private void addListeners() {
-        final String MOUSE_LEFT = "PRIMARY";
-
         buttonLeft.setOnMouseClicked(event -> {
-            if (event.getButton().name().equals(MOUSE_LEFT)) {
+            if (event.getButton().name().equals(Buttons.MOUSE_LEFT)) {
                 controller.actionLeftButton(buttonLeft.getText());
             }
         });
@@ -105,7 +108,7 @@ public class View extends Stage {
         });
 
         buttonCenter.setOnMouseClicked(event -> {
-            if (event.getButton().name().equals(MOUSE_LEFT)) {
+            if (event.getButton().name().equals(Buttons.MOUSE_LEFT)) {
                 controller.actionCenterButton();
             }
         });
@@ -117,7 +120,7 @@ public class View extends Stage {
         });
 
         buttonRight.setOnMouseClicked(event -> {
-            if (event.getButton().name().equals(MOUSE_LEFT)) {
+            if (event.getButton().name().equals(Buttons.MOUSE_LEFT)) {
                 controller.actionRightButton(buttonRight.getText(), input.getText());
             }
         });
@@ -133,7 +136,7 @@ public class View extends Stage {
 
     public void renderStartGame() {
         /* центральная панель */
-        text.setText(String.format(Messages.ENTER, controller.getModel().getMoveNumber()));
+        text.setText(String.format(Messages.ENTER, model.getMoveNumber()));
         text.setAlignment(Pos.CENTER_LEFT);
         input.setStyle(Styles.SIZE_13_25);
         input.setMaxWidth(50);
@@ -166,7 +169,7 @@ public class View extends Stage {
         /* фильтр: можно вводить только 3 цифры */
         input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
-                input.setText(newValue.replaceAll("[^\\d]", ""));
+                input.setText(newValue.replaceAll("\\D", ""));
             }
             if (newValue.length() > 3) {
                 input.setText(oldValue);
@@ -182,16 +185,20 @@ public class View extends Stage {
         buttonLeft.setPrefWidth(235);
         buttonRight.setPrefWidth(235);
         buttonLeft.setText(Buttons.THANKS);
-        buttonRight.setText(Buttons.KNEW);
+        buttonRight.setText(Buttons.KNOW);
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
     public Image getIcon() {
         return icon;
     }
     public Label getText() {
         return text;
+    }
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 }

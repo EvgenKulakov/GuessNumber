@@ -7,13 +7,15 @@ import java.util.Set;
 public class Model {
     private int secretNumber;
     private int moveNumber;
-    private Set<Integer> useNumbers;
-    private static boolean notFirstGame;
+    private int useNumber;
+    private final Set<Integer> useNumbers;
+    private boolean notFirstGame;
 
     public Model() {
         createSecretNumber();
-        initializeMoveNumber();
-        resetUseNumbers();
+        moveNumber = 1;
+        useNumbers = new HashSet<>();
+        notFirstGame = false;
     }
 
     private void createSecretNumber() {
@@ -21,32 +23,38 @@ public class Model {
         secretNumber = random.nextInt(1000);
     }
 
-    private void initializeMoveNumber() {
+    public void resetModel() {
+        createSecretNumber();
         moveNumber = 1;
-    }
-
-    private void resetUseNumbers() {
-        useNumbers = new HashSet<>(9);
+        useNumbers.clear();
+        notFirstGame = true;
     }
 
     public void incrementMoveNumber() {
         moveNumber++;
     }
 
-    public static void notFirstGame() {
-        notFirstGame = true;
+    public int getUseNumber() {
+        return useNumber;
+    }
+
+    public void setUseNumber(int useNumber) {
+        this.useNumber = useNumber;
+    }
+
+    public boolean isNotFirstGame() {
+        return notFirstGame;
     }
 
     public Set<Integer> getUseNumbers() {
         return useNumbers;
     }
+
     public int getSecretNumber() {
         return secretNumber;
     }
+
     public int getMoveNumber() {
         return moveNumber;
-    }
-    public static boolean isNotFirstGame() {
-        return notFirstGame;
     }
 }

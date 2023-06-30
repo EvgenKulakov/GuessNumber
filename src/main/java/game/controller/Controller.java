@@ -1,37 +1,38 @@
 package game.controller;
 
-import game.MainClass;
 import game.model.*;
+import game.view.DialogFactory;
+import game.view.ShowDialog;
 import game.view.View;
+import javafx.stage.Stage;
 
 public class Controller {
-    private final View view;
     private final Model model;
-    private int useNumber;
+    private View view;
 
-    public Controller(View view, Model model) {
-        this.view = view;
+    public Controller(Model model, View view) {
         this.model = model;
+        this.view = view;
     }
 
     /* левая кнопка */
     public void actionLeftButton(String buttonText) {
         switch (buttonText) {
             case Buttons.NO_GAME:
-                DialogFactory.create(DialogType.NO_GAME);
+                DialogFactory.create(DialogType.NO_GAME).showAndWait();
                 break;
             case Buttons.MANUAL:
-                DialogFactory.create(DialogType.MANUAL);
+                DialogFactory.create(DialogType.MANUAL).showAndWait();
                 break;
             case Buttons.THANKS:
-                DialogFactory.create(DialogType.YOU_WELCOME);
+                DialogFactory.create(DialogType.YOU_WELCOME).showAndWait();
                 break;
         }
     }
 
     /* центральная кнопка */
     public void actionCenterButton() {
-        DialogFactory.create(DialogType.REBOOT);
+        DialogFactory.create(DialogType.REBOOT).showAndWait();
     }
 
     /* правая кнопка */
@@ -40,8 +41,8 @@ public class Controller {
             case Buttons.MOVE:
                 parseAndMove(inputText);
                 break;
-            case Buttons.KNEW:
-                DialogFactory.create(DialogType.NOT_KNOW);
+            case Buttons.KNOW:
+                DialogFactory.create(DialogType.NOT_KNOW).showAndWait();
                 break;
             case Buttons.LETS_GAME:
             case Buttons.PLAY_MORE:
@@ -54,15 +55,15 @@ public class Controller {
         if (!inputText.isEmpty()) {
             nextMove(Integer.parseInt(inputText));
         } else {
-            DialogFactory.create(DialogType.EMPTY_STRING);
+            DialogFactory.create(DialogType.EMPTY_STRING).showAndWait();
         }
     }
 
     private void nextMove(int useNumber) {
-        this.useNumber = useNumber;
+        model.setUseNumber(useNumber);
 
         if (model.getUseNumbers().contains(useNumber)) {
-            DialogFactory.create(DialogType.CHANGE_NUMBER);
+            DialogFactory.create(DialogType.CHANGE_NUMBER).showAndWait();
             return;
         }
 
@@ -71,12 +72,13 @@ public class Controller {
         if (isGameOver()) return;
 
         if (model.getSecretNumber() < useNumber) {
-            DialogFactory.create(DialogType.LOW);
+            DialogFactory.create(DialogType.LOW).showAndWait();
         }
         if (model.getSecretNumber() > useNumber) {
-            DialogFactory.create(DialogType.HIGH);
+            DialogFactory.create(DialogType.HIGH).showAndWait();
         }
 
+        /* ход состоялся: изменение главного текста и сохранение использованного числа */
         view.getText().setText(String.format(Messages.ENTER, model.getMoveNumber()));
         model.getUseNumbers().add(useNumber);
     }
@@ -84,12 +86,12 @@ public class Controller {
     private boolean isGameOver() {
         boolean end = false;
 
-        if (model.getMoveNumber() > 10 && model.getSecretNumber() != useNumber) {
+        if (model.getMoveNumber() > 10 && model.getSecretNumber() != model.getUseNumber()) {
             gameOver();
             end = true;
         }
 
-        if (model.getSecretNumber() == useNumber) {
+        if (model.getSecretNumber() == model.getUseNumber()) {
             victory();
             end = true;
         }
@@ -98,30 +100,22 @@ public class Controller {
     }
 
     public void gameOver() {
-        DialogFactory.create(DialogType.GAME_OVER);
+        DialogFactory.create(DialogType.GAME_OVER).showAndWait();
         repeatGame();
     }
 
     public void victory() {
-        DialogFactory.create(DialogType.VICTORY);
+        DialogFactory.create(DialogType.VICTORY).showAndWait();
         view.victoryRendering();
     }
 
     public void repeatGame() {
-        Model.notFirstGame();
-        double pastX = view.getX();
-        double pastY = view.getY();
-        view.close();
-        MainClass.startWindow(new View(pastX, pastY));
-    }
-
-    public View getView() {
-        return view;
-    }
-    public Model getModel() {
-        return model;
-    }
-    public int getUseNumber() {
-        return useNumber;
+        model.resetModel();
+        double pastX = view.getStage().getX();
+        double pastY = view.getStage().getY();
+        view.getStage().close();
+        View newView = new View(new Stage(), pastX, pastY, model, this);
+        this.view = newView;
+        ShowDialog.setParentWindow(newView);
     }
 }

@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.questsfera</groupId>
-    <artifactId>GuessTheNumber</artifactId>
-    <version>1.0</version>
+    <artifactId>GuessNumber</artifactId>
+    <version>4.9.0</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -47,10 +47,10 @@
                                 <runtimeBits>32</runtimeBits>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.4.0.0</fileVersion>
+                                <fileVersion>4.9.0.0</fileVersion>
                                 <trademarks>${project.organization.name} ®</trademarks>
                                 <internalName>${project.build.finalName}</internalName>
-                                <originalFilename>GuessTheNumber.exe</originalFilename>
+                                <originalFilename>GuessNumber.exe</originalFilename>
                             </versionInfo>
                             <icon>src\main\resources\matrix_icon.ico</icon>
                         </configuration>
@@ -62,6 +62,6 @@
 
     <organization><name>QuestSfera</name></organization>
     <inceptionYear>2023</inceptionYear>
-    <description>GuessTheNumber</description>
+    <description>GuessNumber</description>
 
 </project>

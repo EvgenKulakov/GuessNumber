@@ -10,6 +10,10 @@ public class Buttons {
     public static final String MOVE = "Далее";
     public static final String MANUAL = "Инструкция";
     public static final String THANKS = "Спасибо";
-    public static final String KNEW = "Я знал!";
+    public static final String KNOW = "Я знал!";
     public static final String REBOOT = "Перезагрузка";
+    public static final String MOUSE_LEFT = "PRIMARY";
+    public static final String YES = "ДА";
+    public static final String NO = "НЕТ";
+    public static final String OK = "OK";
 }

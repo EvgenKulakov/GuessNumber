@@ -1,5 +1,6 @@
 package game.view;
 
+import game.model.Buttons;
 import game.model.DialogSize;
 import game.model.Styles;
 import javafx.geometry.Insets;
@@ -15,45 +16,46 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ShowDialog extends Stage {
+    private static View parentView;
+    private static Stage parentStage;
     private final BorderPane root = new BorderPane();
     private final Scene scene = new Scene(root);
     private final VBox vBoxMain = new VBox();
     private final HBox hBoxText = new HBox();
     protected final HBox hBoxButton = new HBox();
 
-    private final View parent;
     private final String title;
     private final ImageView typeIcon;
     private final Label text;
-    private final Button button;
+    protected final Button buttonClose;
     private final Pos posButton;
     private final DialogSize dialogSize;
 
 
-    public ShowDialog(View parent, String title, String typeIcon, String text, DialogSize dialogSize) {
-        this(parent, title, typeIcon, text, "OK", Pos.BASELINE_RIGHT, dialogSize);
+    public ShowDialog(String title, String typeIcon, String text, DialogSize dialogSize) {
+        this(title, typeIcon, text, Buttons.OK, Pos.BASELINE_RIGHT, dialogSize);
     }
 
-    public ShowDialog(View parent, String title, String typeIcon, String text,
-                             String buttonTxt, Pos posButton, DialogSize dialogSize) {
-        this.parent = parent;
+    public ShowDialog(String title, String typeIcon, String text,
+                      String buttonTxt, Pos posButton, DialogSize dialogSize) {
         this.title = title;
         this.typeIcon = new ImageView(new Image(getClass().getResourceAsStream(typeIcon)));
         this.text = new Label(text);
-        this.button = new Button(buttonTxt);
+        this.buttonClose = new Button(buttonTxt);
         this.posButton = posButton;
         this.dialogSize = dialogSize;
         dialogRendering();
+        addListeners();
     }
 
     private void dialogRendering() {
         setScene(scene);
-        initOwner(parent);
-        setX(parent.getX() + dialogSize.getPlusX());
-        setY(parent.getY() + dialogSize.getPlusY());
+        initOwner(parentStage);
+        setX(parentStage.getX() + dialogSize.getPlusX());
+        setY(parentStage.getY() + dialogSize.getPlusY());
         setTitle(title);
         setResizable(false);
-        getIcons().add(parent.getIcon());
+        getIcons().add(parentView.getIcon());
         initModality(Modality.APPLICATION_MODAL);
         root.setMinWidth(dialogSize.getMinWindow());
 
@@ -65,18 +67,10 @@ public class ShowDialog extends Stage {
         hBoxText.setPadding(new Insets(10, 10, 2, 10));
         hBoxText.getChildren().addAll(typeIcon, text);
 
-        button.setOnMouseClicked(event -> {
-            if (event.getButton().name().equals("PRIMARY")) close();
-        });
-
-        button.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) close();
-        });
-
-        button.setMinWidth(50);
+        buttonClose.setMinWidth(50);
         hBoxButton.setPadding(new Insets(0, 10, 8, 10));
         hBoxButton.setAlignment(posButton);
-        hBoxButton.getChildren().add(button);
+        hBoxButton.getChildren().add(buttonClose);
 
         vBoxMain.getChildren().addAll(hBoxText, hBoxButton);
         root.setCenter(vBoxMain);
@@ -87,5 +81,20 @@ public class ShowDialog extends Stage {
             text.setMinWidth(alignment);
             text.setAlignment(Pos.CENTER_RIGHT);
         });
+    }
+
+    private void addListeners() {
+        buttonClose.setOnMouseClicked(event -> {
+            if (event.getButton().name().equals(Buttons.MOUSE_LEFT)) close();
+        });
+
+        buttonClose.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) close();
+        });
+    }
+
+    public static void setParentWindow(View parentView) {
+        ShowDialog.parentView = parentView;
+        ShowDialog.parentStage = parentView.getStage();
     }
 }
