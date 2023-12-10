@@ -6,7 +6,7 @@
 
     <groupId>ru.questsfera</groupId>
     <artifactId>GuessNumber</artifactId>
-    <version>4.9.0</version>
+    <version>4.9.2</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -41,7 +41,7 @@
                                 <mutexName>GuessNumber</mutexName>
                             </singleInstance>
                             <jre>
-                                <path>C:\Users\Stvolya\.jdks\liberica-17.0.6</path>
+                                <path>C:\Users\Evgeniy\.jdks\liberica-17.0.9</path>
                                 <minVersion>1.8.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
                                 <runtimeBits>32</runtimeBits>
@@ -59,6 +59,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.9</version>
+        </dependency>
+    </dependencies>
 
     <organization><name>QuestSfera</name></organization>
     <inceptionYear>2023</inceptionYear>
